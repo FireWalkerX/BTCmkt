@@ -6,10 +6,6 @@ class Bitcoin {
 
 	/**
 	 * Creates a Bitcoin connection.
-	 * @param (array) params - array containing all the parameters:
-	 *		'server'	=> (string) the server to which connect
-	 *		'port'		=> (int) the port to connect to
-	 *		'is_ssl'	=> (bool) if it will use SSL connection
 	 **/
 	public function __construct()
 	{
