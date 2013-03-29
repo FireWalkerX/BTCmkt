@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-
+//TODO 64 bit integers
 class Bitcoin {
 
 	private $url;
@@ -30,9 +30,6 @@ class Bitcoin {
 		return $this->connect('backupwallet', array(realpath($destination)));
 	}
 
-	//TODO createrawtransaction
-	//TODO decoderawtransaction
-
 	/**
 	 * Returns the account associated with the given address.
 	 *
@@ -57,7 +54,7 @@ class Bitcoin {
 	 * Returns the balance in the account.
 	 *
 	 * @param (string) account - The account to check
-	 * @param (int) minconf - The minimum confirmations needed to consider as confirmed
+	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
 	 **/
 	public function getbalance($account, $minconf = 6)
 	{
@@ -95,11 +92,151 @@ class Bitcoin {
 	 * Returns the total amount received by the account in transactions with a minimum confirmations.
 	 *
 	 * @param (string) account - The account to check
-	 * @param (int) minconf - The minimum confirmations needed to consider as confirmed
+	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
 	 **/
 	public function getreceivedbyaccount($account, $minconf = 6)
 	{
 		return $this->connect('getaccountaddress', array($account, (int) $minconf));
+	}
+
+	/**
+	 * Returns an object about the given transaction containing:
+	 *		amount - total amount of the transaction
+	 *		confirmations - number of confirmations of the transaction
+	 *		txid - the transaction ID
+	 *		time - time the transaction occurred
+	 *		details - An array of objects containing:
+	 *			account, address, category, amount, fee
+	 *
+	 * @param (string) txid - The account to check
+	 **/
+	public function gettransaction($txid)
+	{
+		return $this->connect('gettransaction', array($txid));
+	}
+
+	/**
+	 * Returns Object that has account names as keys, account balances as values.
+	 *
+	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
+	 **/
+	public function listaccounts($minconf = 6)
+	{
+		return $this->connect('listaccounts', array((int) $minconf));
+	}
+
+	//TODO listaddressgroupings
+
+	/**
+	 * Returns an array of objects containing:
+	 *		account - the account of the receiving addresses
+	 *		amount - total amount received by addresses with this account
+	 *		confirmations - number of confirmations of the most recent transaction included
+	 *
+	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
+	 * @param (bool) includeempty - Wether to include account with no transactions
+	 **/
+	public function listreceivedbyaccount($minconf = 6, $includeempty = TRUE)
+	{
+		return $this->connect('listreceivedbyaccount', array((int) $minconf, (bool) $includeempty));
+	}
+
+	/**
+	 * Returns an array of objects containing:
+	 *		address - receiving address
+	 *		account - the account of the receiving addresses
+	 *		amount - total amount received by addresses with this account
+	 *		confirmations - number of confirmations of the most recent transaction included
+	 *
+	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
+	 * @param (bool) includeempty - Wether to include account with no transactions
+	 **/
+	public function listreceivedbyaddress($minconf = 6, $includeempty = TRUE)
+	{
+		return $this->connect('listreceivedbyaddress', array((int) $minconf, (bool) $includeempty));
+	}
+
+	/**
+	 * Returns the most recent transactions skipping the first given transactions for the given account.
+	 *
+	 * @param (string account - The account to check
+	 * @param (int) count - The number of transactions to return
+	 * @param (int) from - The number of transactions to skip
+	 **/
+	public function listtransactions($account, $count = 10, $from = 0)
+	{
+		return $this->connect('listtransactions', array($account, (int) $count, (int) $from));
+	}
+
+	/**
+	 * Returns array of unspent transaction inputs in the wallet.
+	 *
+	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
+	 * @param (int) maxconf - The maximum confirmations for a transaction to be showed
+	 **/
+	public function listunspent($minconf = 6, $maxconf = 999999)
+	{
+		return $this->connect('listunspent', array((int) $minconf, (int) $maxconf));
+	}
+
+	/**
+	 * Move from one account in your wallet to another. It won't use Bitcoin network, and thus,
+	 * whon't cost any fee.
+	 *
+	 * @param (string) fromaccount - The account from which to transfer funds
+	 * @param (string) toaccount - The account to which send funds
+	 * @param (double) amount - The amount to send (rounded to 8 decimal places)
+	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
+	 * @param (string) comment - The comment for the move
+	 **/
+	public function move($fromaccount, $toaccount, $amount, $minconf = 6, $comment = '')
+	{
+		return $this->connect('move', array($fromaccount, $toaccount, (double) $amount, (int) $minconf, $comment));
+	}
+
+	/**
+	 * Will send the given amount to the given address, ensuring the account has a valid balance
+	 * using given confirmations.
+	 *
+	 * @param (string) fromaccount - The account from which to transfer funds
+	 * @param (string) tobitcoinaddress - The Bitcoin address for receiving the funds
+	 * @param (double) amount - The amount to send (rounded to 8 decimal places)
+	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
+	 * @param (string) comment - The comment for the sending transaction
+	 * @param (string) comment-to - The comment for the arriving transaction
+	 * @return (string) the transaction ID, if successful (not a JSON object)
+	 **/
+	public function sendfrom($fromaccount, $tobitcoinaddress, $amount, $minconf = 6, $comment = '', $comment_to = '')
+	{
+		return $this->connect('sendfrom', array($fromaccount, $tobitcoinaddress, (double) $amount, (int) $minconf, $comment, $comment_to));
+	}
+
+	/**
+	 * Sends multiple transactions at one time. It will use a send array to
+	 * send different ammounts to each address.
+	 *
+	 * @param (string) fromaccount - The account from which to transfer funds
+	 * @param (array) send_array - The array with the ammounts to send,
+	 *		in (string) key|address => (double) amount (rounded to 8 decimal places) format
+	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
+	 * @param (string) comment - The comment for the sending transaction
+	 **/
+	public function sendmany($fromaccount, $send_array, $minconf = 6, $comment = '')
+	{
+		return $this->connect('sendmany', array($fromaccount, json_encode($send_array), (int) $minconf, $comment));
+	}
+
+	/**
+	 * Sends money to a given address using the default account.
+	 *
+	 * @param (string) bitcoinaddress - The address to which to send funds
+	 * @param (double) amount (rounded to 8 decimal places)
+	 * @param (string) comment - The comment for the sending transaction
+	 * @param (string) comment-to - The comment for the arriving transaction
+	 **/
+	public function sendtoaddress($bitcoinaddress, $amount, $comment = '', $comment_to = '')
+	{
+		return $this->connect('sendtoaddress', array($bitcoinaddress, (double) $amount, $comment, $comment_to));
 	}
 
 	/**
@@ -109,9 +246,21 @@ class Bitcoin {
 	 * @return (int) the integer for use with Bitcoin
 	 * @link https://en.bitcoin.it/wiki/Proper_Money_Handling_(JSON-RPC)
 	 **/
-	public function JSONtoAmount($value)
+	public function JSON_to_amount($value)
 	{
 		return round($value * 1E+8);
+	}
+
+	/**
+	 * Returns the 64 bit double precision number for the JSON-RPC request of the integer.
+	 *
+	 * @param (int) value - The BTC value to be converted
+	 * @return (double) the double to use with the JSON-RPC API
+	 * @link https://en.bitcoin.it/wiki/Proper_Money_Handling_(JSON-RPC)
+	 **/
+	public function amount_to_JSON($value)
+	{
+		return (double) round($value * 1E-8, 8);
 	}
 
 	/**
