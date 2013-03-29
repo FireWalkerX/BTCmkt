@@ -6,7 +6,7 @@ class Bitcoin {
 
 	/**
 	 * Creates a Bitcoin connection.
-	 * @param params - array containing all the parameters:
+	 * @param (array) params - array containing all the parameters:
 	 *		'server'	=> (string) the server to which connect
 	 *		'port'		=> (int) the port to connect to
 	 *		'is_ssl'	=> (bool) if it will use SSL connection
@@ -20,9 +20,86 @@ class Bitcoin {
 		log_message('debug', 'Bitcoin connection set, with URL '.$this->url);
 	}
 
+	/**
+	 * Safely copies wallet.dat to destination, which can be a directory or a path with filename.
+	 *
+	 * @param (string) destination - The destination for the backup.
+	 **/
+	public function backupwallet($destination)
+	{
+		return $this->connect('backupwallet', array(realpath($destination)));
+	}
+
+	//TODO createrawtransaction
+	//TODO decoderawtransaction
+
+	/**
+	 * Returns the account associated with the given address.
+	 *
+	 * @param (string) bitcoinaddress -The addres to check
+	 **/
+	public function getaccount($bitcoinaddress)
+	{
+		return $this->connect('getaccount', array($bitcoinaddress));
+	}
+
+	/**
+	 * Returns the current bitcoin address for receiving payments to this account.
+	 *
+	 * @param (string) account - The account to check
+	 **/
+	public function getaccountaddress($account)
+	{
+		return $this->connect('getaccountaddress', array($account));
+	}
+
+	/**
+	 * Returns the balance in the account.
+	 *
+	 * @param (string) account - The account to check
+	 * @param (int) minconf - The minimum confirmations needed to consider as confirmed
+	 **/
+	public function getbalance($account, $minconf = 6)
+	{
+		return $this->connect('getaccountaddress', array($account, (int) $minconf));
+	}
+
+	/**
+	 * Returns the number of connections to other nodes.
+	 **/
+	public function getconnectioncount()
+	{
+		return $this->connect('getaccountaddress');
+	}
+
+	/**
+	 * Returns an object containing various state info.
+	 **/
 	public function getinfo()
 	{
 		return $this->connect('getinfo');
+	}
+
+	/**
+	 * Returns a new bitcoin address for receiving payments.
+	 * It is added to the address book so payments received with the address will be credited to the account.
+	 *
+	 * @param (string) account - The account for the new address
+	 **/
+	public function getnewaddress($account)
+	{
+		return $this->connect('getnewaddress', array($account));
+	}
+
+	/**
+	 * Returns the total amount received by the account in transactions with a minimum confirmations.
+	 *
+	 * @param (string) account - The account to check
+	 * @param (int) minconf - The minimum confirmations needed to consider as confirmed
+	 **/
+	public function getreceivedbyaccount($account, $minconf = 6)
+	{
+		return $this->connect('getaccountaddress', array($account, (int) $minconf));
 	}
 
 	/**
@@ -32,7 +109,7 @@ class Bitcoin {
 	 * @return (int) the integer for use with Bitcoin
 	 * @link https://en.bitcoin.it/wiki/Proper_Money_Handling_(JSON-RPC)
 	 **/
-	private function JSONtoAmount($value)
+	public function JSONtoAmount($value)
 	{
 		return round($value * 1E+8);
 	}
@@ -41,13 +118,13 @@ class Bitcoin {
 	 * Creates the connection.
 	 * Uses code from JSON-RPC PHP client.
 	 *
-	 * @param method - the method to use in the JSON-RPC connection
-	 * @param params - the params to pass in the JSON-RPC connection
+	 * @param (string) method - the method to use in the JSON-RPC connection
+	 * @param (array) params - the params to pass in the JSON-RPC connection
 	 * @link http://jsonrpcphp.org/
 	 **/
 	private function connect($method, $params = array())
 	{
-		$id = 1;//mt_rand(1, 1000000);
+		$id = mt_rand(1, 1000000);
 
 		// prepares the request
 		$request	= array(

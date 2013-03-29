@@ -9,11 +9,7 @@ class Main extends CI_Controller {
 			redirect('/');
 		}
 		//TODO
-	//	$this->load->view('welcome_message');
-
-		echo "<pre>\n";
-		print_r($this->bitcoin->getinfo());
-		echo "</pre>";
+		$this->load->view('welcome_message');
 	}
 }
 
