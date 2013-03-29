@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-//TODO 64 bit integers
+
 class Bitcoin {
 
 	private $url;
@@ -125,8 +125,6 @@ class Bitcoin {
 		return $this->connect('listaccounts', array((int) $minconf));
 	}
 
-	//TODO listaddressgroupings
-
 	/**
 	 * Returns an array of objects containing:
 	 *		account - the account of the receiving addresses
@@ -237,6 +235,83 @@ class Bitcoin {
 	public function sendtoaddress($bitcoinaddress, $amount, $comment = '', $comment_to = '')
 	{
 		return $this->connect('sendtoaddress', array($bitcoinaddress, (double) $amount, $comment, $comment_to));
+	}
+
+	/**
+	 * Sign a message with the private key of an address.
+	 *
+	 * @param (string) bitcoinaddress - The address to use for signing
+	 * @param (string) message - The message to sign
+	 * @return (string) The signed message
+	 **/
+	public function signmessage($bitcoinaddress, $message)
+	{
+		return $this->connect('signmessage', array($bitcoinaddress, $message));
+	}
+
+	/**
+	 * Sets the new fee for transactions.
+	 *
+	 * @param (double) amount -The new amount for the fee (rounded to 8 decimal places)
+	 **/
+	public function settxfee($amount)
+	{
+		return $this->connect('settxfee', array((double) $amount));
+	}
+
+	/**
+	 * Return information about a given address.
+	 *
+	 * @param $bitcoinaddress - The address to check
+	 **/
+	public function validateaddress($bitcoinaddress)
+	{
+		return $this->connect('settxfee', array($bitcoinaddress));
+	}
+
+	/**
+	 * Sign a message with the private key of an address.
+	 *
+	 * @param (string) bitcoinaddress - The address used for signing
+	 * @param (string) signature - The signature resulted from signing
+	 * @param (string) message - The message
+	 * @return (bool) Wether the signature has been verified or not
+	 **/
+	public function verifymessage($bitcoinaddress, $signature, $message)
+	{
+		return $this->connect('verifymessage', array($bitcoinaddress, $signature, $message));
+	}
+
+	/**
+	 * Removes the wallet encryption key from memory, locking the wallet.
+	 * After calling this method, you will need to call walletpassphrase again
+	 * before being able to call any methods which require the wallet to be unlocked.
+	 **/
+	public function walletlock()
+	{
+		return $this->connect('walletlock');
+	}
+
+	/**
+	 * Stores the wallet decryption key in memory for a given amount of seconds.
+	 *
+	 * @param (string) passphrase - The passphrase of the wallet
+	 * @param (int) timeout - The number of seconds to store the decryption key in memory
+	 **/
+	public function walletpassphrase($passphrase, $timeout)
+	{
+		return $this->connect('walletpassphrase', array($passphrase, (int) $timeout));
+	}
+
+	/**
+	 * Changes the wallet passphrase.
+	 *
+	 * @param oldpassphrase - The old passphrase
+	 * @param newpassphrase - The new passphrase to set
+	 **/
+	public function walletpassphrasechange($oldpassphrase, $newpassphrase)
+	{
+		return $this->connect('walletpassphrasechange', array($oldpassphrase, $newpassphrase));
 	}
 
 	/**
