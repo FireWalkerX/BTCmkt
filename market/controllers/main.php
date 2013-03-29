@@ -4,7 +4,16 @@ class Main extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		if($this->uri->segment(2))
+		{
+			redirect('/');
+		}
+		//TODO
+	//	$this->load->view('welcome_message');
+
+		echo "<pre>\n";
+		print_r($this->bitcoin->getinfo());
+		echo "</pre>";
 	}
 }
 
