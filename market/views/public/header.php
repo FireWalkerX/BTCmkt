@@ -3,5 +3,6 @@
 <html lang="<?php echo $this->lang->lang(); ?>">
 	<head>
 		<title><?php echo config_item('app_title'); ?></title>
+		<!-- TODO -->
 	</head>
 	<body>

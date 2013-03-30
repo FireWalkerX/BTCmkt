@@ -15,8 +15,11 @@ class Main extends CI_Controller {
 		}
 		else
 		{
+			$data['menu'] = $this->load->view('public/menu', TRUE);
+			$data['marquee'] = 'MARQUEE';
+
 			$this->load->view('public/header');
-			$this->load->view('public/main');
+			$this->load->view('public/main', $data);
 			$this->load->view('public/footer');
 		}
 	}
