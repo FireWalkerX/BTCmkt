@@ -30,7 +30,7 @@ a
 	background-color:				#000000;
 	font-family:					ScoreBoard;
 	color:							#FF9900;
-	font-size:						1.5em;
+	font-size:						2em;
 	letter-spacing:					0.2em;
 	overflow:						hidden;
 
@@ -46,6 +46,23 @@ a
 	-webkit-marquee-speed:			fast;
 	-webkit-marquee-increment:		small;
 	-webkit-marquee-repetition:		infinite;
+
+	span
+	{
+		&.bid
+		{
+			color:					#118C11;
+		}
+
+		&.ask
+		{
+			color:					#C91616;
+			&.title
+			{
+				margin-left:		5em;
+			}
+		}
+	}
 }
 
 nav
