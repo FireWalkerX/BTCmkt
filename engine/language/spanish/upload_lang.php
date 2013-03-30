@@ -19,4 +19,4 @@ $lang['upload_not_writable'] = "Parece que no se puede escribir en el directorio
 
 
 /* End of file upload_lang.php */
-/* Location: ./system/language/spanish/upload_lang.php */
+/* Location: ./engine/language/spanish/upload_lang.php */

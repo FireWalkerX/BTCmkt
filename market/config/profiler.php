@@ -45,4 +45,4 @@ $config['get']	= FALSE;
 
 
 /* End of file profiler.php */
-/* Location: ./application/config/profiler.php */
+/* Location: ./market/config/profiler.php */

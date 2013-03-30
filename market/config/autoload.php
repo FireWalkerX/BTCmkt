@@ -79,7 +79,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'email', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'bitcoin');
+$autoload['libraries'] = array('database', 'bitcoin', 'user');
 
 
 /*
@@ -160,4 +160,4 @@ $autoload['model'] = array();
 
 
 /* End of file autoload.php */
-/* Location: ./application/config/autoload.php */
+/* Location: ./market/config/autoload.php */

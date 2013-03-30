@@ -36,4 +36,4 @@ class BM_Config extends CI_Config {
 
 
 /* End of file BM_Config.php */
-/* Location: ./application/core/BM_Config.php */
+/* Location: ./market/core/BM_Config.php */

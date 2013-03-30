@@ -537,4 +537,4 @@ if ( ! function_exists('ellipsize'))
 }
 
 /* End of file text_helper.php */
-/* Location: ./system/helpers/text_helper.php */
+/* Location: ./engine/helpers/text_helper.php */

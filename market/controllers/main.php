@@ -8,11 +8,18 @@ class Main extends CI_Controller {
 		{
 			redirect('/');
 		}
-		//TODO
-		$this->load->view('welcome_message');
+
+		if ($this->user->is_logged_in())
+		{
+			//TODO
+		}
+		else
+		{
+			//TODO
+		}
 	}
 }
 
 
 /* End of file main.php */
-/* Location: ./application/controllers/main.php */
+/* Location: ./market/controllers/main.php */

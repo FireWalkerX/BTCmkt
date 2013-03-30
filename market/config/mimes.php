@@ -176,4 +176,4 @@ return array(
 );
 
 /* End of file mimes.php */
-/* Location: ./application/config/mimes.php */
+/* Location: ./market/config/mimes.php */

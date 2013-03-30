@@ -49,4 +49,4 @@ $_doctypes = array(
 
 
 /* End of file doctypes.php */
-/* Location: ./application/config/doctypes.php */
+/* Location: ./market/config/doctypes.php */

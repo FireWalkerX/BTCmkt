@@ -59,6 +59,8 @@ class Bitcoin {
 
 	/**
 	 * Returns the number of connections to other nodes.
+	 *
+	 * @return (int) The number of connections
 	 **/
 	public function getconnectioncount()
 	{
@@ -207,10 +209,10 @@ class Bitcoin {
 
 	/**
 	 * Sends multiple transactions at one time. It will use a send array to
-	 * send different ammounts to each address.
+	 * send different amounts to each address.
 	 *
 	 * @param (string) fromaccount - The account from which to transfer funds
-	 * @param (array) send_array - The array with the ammounts to send,
+	 * @param (array) send_array - The array with the amounts to send,
 	 *		in (string) key|address => (double) amount (rounded to 8 decimal places) format
 	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
 	 * @param (string) comment - The comment for the sending transaction
@@ -394,4 +396,4 @@ class Bitcoin {
 
 
 /* End of file Bitcoin.php */
-/* Location: ./application/libraries/Bitcoin.php */
+/* Location: ./market/libraries/Bitcoin.php */

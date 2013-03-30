@@ -23,4 +23,4 @@ $lang['profiler_section_show']	= 'Mostrar';
 
 
 /* End of file profiler_lang.php */
-/* Location: ./system/language/spanish/profiler_lang.php */
+/* Location: ./engine/language/spanish/profiler_lang.php */

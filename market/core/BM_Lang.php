@@ -139,4 +139,4 @@ class BM_Lang extends CI_Lang {
 
 
 /* End of file BM_Lang.php */
-/* Location: ./application/core/BM_Lang.php */
+/* Location: ./market/core/BM_Lang.php */
