@@ -2,4 +2,5 @@
 
 $lang['register']	= 'Sign in';
 $lang['login']		= 'Log in';
+$lang['charts']		= 'Charts';
 $lang['contact']	= 'Contact';

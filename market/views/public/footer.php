@@ -3,5 +3,6 @@
 			Copyright © 2013 - Bitmarket
 			<!-- TODO -->
 		</section>
+	</section>
 	</body>
 </html>

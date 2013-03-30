@@ -16,7 +16,7 @@ class Main extends CI_Controller {
 		else
 		{
 			$this->lang->load('public');
-			$data['menu'] = $this->load->view('public/menu', TRUE);
+			$data['menu'] = $this->load->view('public/menu', array(), TRUE);
 			$data['marquee'] = 'MARQUEE';
 
 			$this->load->view('public/header');

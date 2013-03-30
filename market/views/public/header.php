@@ -11,3 +11,4 @@
 		<link rel="stylesheet" href="<?php echo site_url('css/public.css'); ?>" type="text/css">
 	</head>
 	<body>
+	<section class="page">
