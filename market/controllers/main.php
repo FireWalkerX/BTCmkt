@@ -15,7 +15,9 @@ class Main extends CI_Controller {
 		}
 		else
 		{
-			//TODO
+			$this->load->view('public/header');
+			$this->load->view('public/main');
+			$this->load->view('public/footer');
 		}
 	}
 }

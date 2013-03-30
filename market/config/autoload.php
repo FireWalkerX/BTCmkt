@@ -123,7 +123,7 @@ $autoload['helper'] = array('url');
 |
 */
 
-$autoload['config'] = array('server');
+$autoload['config'] = array('server', 'info');
 
 
 /*

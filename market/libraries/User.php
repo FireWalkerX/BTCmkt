@@ -13,9 +13,11 @@ class User {
 
 	public function __construct()
 	{
+		$CI =& get_instance();
+		$CI->load->driver('session');
+
 		if ($this->is_logged_in())
 		{
-			$CI =& get_instance();
 			$CI->db->where('id', $CI->session->userdata('user_id'));
 			$query = $CI->db->get('users');
 
