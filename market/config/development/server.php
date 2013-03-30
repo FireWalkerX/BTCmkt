@@ -54,3 +54,7 @@ $config['server_user']	= '4k3Zm2D15e';
 |
 */
 $config['server_pass']	= 'wx6f7N5asN';
+
+
+/* End of file server.php */
+/* Location: ./market/config/development/server.php */

@@ -1,0 +1,56 @@
+@font-face
+{
+	font-family:				ScoreBoard;
+	src:						url('./../fonts/scoreboard.ttf');
+}
+
+body
+{
+	margin:						auto;
+}
+
+.marquee
+{
+	background-color:			#000000;
+	font-family:				ScoreBoard;
+	color:						#FF9900;
+	font-size:					1.5em;
+	letter-spacing:				0.2em;
+	overflow:					hidden;
+	overflow-x:					marquee-line;
+
+	marquee-style:				scroll;
+	marquee-direction:			reverse;
+	marquee-play-count:			infinite;
+	marquee-speed:				fast;
+
+	overflow-x:					-webkit-marquee;
+	-webkit-marquee-direction:	backwards;
+	-webkit-marquee-style:		scroll;
+	-webkit-marquee-speed:		fast;
+	-webkit-marquee-increment:	small;
+	-webkit-marquee-repetition:	infinite;
+}
+
+nav ul
+{
+	li
+	{
+		display:				inline-block;
+	}
+
+	section
+	{
+		display:				inline-block;
+
+		&.account
+		{
+			text-align:			left;
+		}
+
+		&.overal
+		{
+			text-align:			right;
+		}
+	}
+}

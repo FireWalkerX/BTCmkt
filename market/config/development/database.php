@@ -103,4 +103,4 @@ $db['default'] = array(
 
 
 /* End of file database.php */
-/* Location: ./market/config/database.php */
+/* Location: ./market/config/development/database.php */

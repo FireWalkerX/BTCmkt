@@ -2,9 +2,7 @@
 
 <?php echo $menu; ?>
 
-<section class="marquee">
-	<?php echo $marquee; ?>
-</section>
+<section class="marquee"><?php echo $marquee; ?></section>
 
 <section class="market">
 	<section class="bids"></section>

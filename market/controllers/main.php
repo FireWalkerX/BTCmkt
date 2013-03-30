@@ -15,6 +15,7 @@ class Main extends CI_Controller {
 		}
 		else
 		{
+			$this->lang->load('public');
 			$data['menu'] = $this->load->view('public/menu', TRUE);
 			$data['marquee'] = 'MARQUEE';
 

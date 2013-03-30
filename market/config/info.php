@@ -9,3 +9,7 @@
 |
 */
 $config['app_title']	= 'Bitmarket';
+
+
+/* End of file info.php */
+/* Location: ./market/config/info.php */

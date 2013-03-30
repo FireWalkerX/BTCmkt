@@ -54,3 +54,7 @@ $config['server_user']	= ''; //TODO
 |
 */
 $config['server_pass']	= ''; //TODO
+
+
+/* End of file server.php */
+/* Location: ./market/config/production/server.php */
