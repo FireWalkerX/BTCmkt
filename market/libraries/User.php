@@ -35,6 +35,7 @@ class User {
 			$this->last_active = (int) $user->last_active;
 			$this->language = $user->language;
 			$this->money = unserialize($user->money);
+			$this->settings = unserialize($user->settings);
 			$this->money['BTC'] = $CI->bitcoin->getbalance($this->id);
 			$this->btc_address = $CI->bitcoin->getaccountaddress($this->id);
 		}
@@ -59,8 +60,7 @@ class User {
 	 **/
 	public function get_language()
 	{
-		//TODO
-		return $this->is_logged_in ? $this->language : NULL;
+		return $this->get_setting('language');
 	}
 
 	/**
@@ -71,6 +71,47 @@ class User {
 	public function get_address()
 	{
 		return $this->btc_address;
+	}
+
+	/**
+	 * Logs in the user
+	 *
+	 * @return (bool) If it has logged in
+	 **/
+	public function log_in($username, $password)
+	{
+		$CI =& get_instance();
+		$db_password = sha1($password);
+
+		$CI->db->where('username', $username);
+		$CI->db->where('password', $db_password);
+		$CI->db->select('id');
+		$query = $CI->db->get('users');
+
+		if ($query->num_rows() === 1)
+		{
+			foreach ($query->result() as $user);
+			$CI->session->set_userdata('user_id', (int) $user->id);
+			$CI->session->set_userdata('logged_in', TRUE);
+		}
+
+		return $query->num_rows() > 0;
+	}
+
+	/**
+	 * Gets a user setting
+	 *
+	 * @param (string) The setting to check
+	 * @return (mixed) The value of the setting, NULL if not set
+	 **/
+	public function get_setting($setting)
+	{
+		if (isset($this->settings[$setting]))
+		{
+			return $this->settings[$setting];
+		}
+
+		return NULL;
 	}
 }
 

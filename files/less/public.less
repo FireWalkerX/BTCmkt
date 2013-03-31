@@ -1,149 +1,243 @@
-@page-background:					#EDF6F6;
+@page-background:						#F6F6F6;
 
 @font-face
 {
-	font-family:					ScoreBoard;
-	src:							url('./../fonts/scoreboard.ttf');
+	font-family:						ScoreBoard;
+	src:								url('./../fonts/scoreboard.ttf');
+}
+
+.linear-gradient(@color1; @percent1; @color2; @percent2)
+{
+	background-image:					linear-gradient(bottom, @color1 @percent1, @color2 @percent2);
+	background-image:					-o-linear-gradient(bottom, @color1 @percent1, @color2 @percent2);
+	background-image:					-moz-linear-gradient(bottom, @color1 @percent1, @color2 @percent2);
+	background-image:					-webkit-linear-gradient(bottom, @color1 @percent1, @color2 @percent2);
+	background-image:					-ms-linear-gradient(bottom, @color1 @percent1, @color2 @percent2);
+
+	background-image:					-webkit-gradient(
+											linear,
+											left bottom,
+											left top,
+											color-stop(1, @color1),
+											color-stop(0, @color2));
+}
+
+.marquee(@style; @direction; @play-count; @speed; @overflow)
+{
+	marquee-style:						@style;
+	marquee-direction:					@direction;
+	marquee-play-count:					@play-count;
+	marquee-speed:						@speed;
+	overflow-style:						@overflow;
+
+	-webkit-marquee-style:				@style;
+	-webkit-marquee-repetition:			@play-count;
+	-webkit-marquee-speed:				@speed;
+	-webkit-marquee-increment:			small;
+	overflow-x:							-webkit-marquee;
 }
 
 body
 {
-	margin:							0.5em;
+	margin:								0.5em;
 
 	.page
 	{
-		border:						1px solid darken(@page-background, 10%);
-		border-radius:				0.2em;
-		padding:					0.5em;
-		background-color:			@page-background;
+		border:							1px solid darken(@page-background, 10%);
+		border-radius:					0.2em;
+		padding:						0.5em;
+		background-color:				@page-background;
 	}
 }
 
 a
 {
-	text-decoration:				none;
-}
-
-.marquee
-{
-	margin:							1em;
-	background-color:				#000000;
-	font-family:					ScoreBoard;
-	color:							#FF9900;
-	font-size:						2em;
-	letter-spacing:					0.2em;
-	overflow:						hidden;
-
-	marquee-style:					scroll;
-	marquee-direction:				reverse;
-	marquee-play-count:				infinite;
-	marquee-speed:					fast;
-	overflow-style:					marquee-line;
-
-	overflow-x:						-webkit-marquee;
-	-webkit-marquee-direction:		backwards;
-	-webkit-marquee-style:			scroll;
-	-webkit-marquee-speed:			fast;
-	-webkit-marquee-increment:		small;
-	-webkit-marquee-repetition:		infinite;
-
-	span
-	{
-		&.bid
-		{
-			color:					#118C11;
-		}
-
-		&.ask
-		{
-			color:					#C91616;
-			&.title
-			{
-				margin-left:		5em;
-			}
-		}
-	}
+	text-decoration:					none;
 }
 
 nav
 {
-	background-image:				linear-gradient(bottom, #474747 100%, #1A1A1A 0%);
-	background-image:				-o-linear-gradient(bottom, #474747 100%, #1A1A1A 0%);
-	background-image:				-moz-linear-gradient(bottom, #474747 100%, #1A1A1A 0%);
-	background-image:				-webkit-linear-gradient(bottom, #474747 100%, #1A1A1A 0%);
-	background-image:				-ms-linear-gradient(bottom, #474747 100%, #1A1A1A 0%);
-
-	background-image:				-webkit-gradient(
-										linear,
-										left bottom,
-										left top,
-										color-stop(1, #474747),
-										color-stop(0, #1A1A1A));
-
-	height:							2em;
-	border-radius:					0.2em;
+	.linear-gradient(#474747, 100%, #1A1A1A, 0%);
+	height:								2em;
+	border-radius:						0.2em;
+	box-shadow:							0.2em 0.2em 0.25em 0.05em #000000;
 
 	ul
 	{
-		padding:					0px;
-		margin:						0px;
+		padding:						0px;
+		margin:							0px;
 	}
 
 	li
 	{
-		display:					inline-block;
-		font-family:				Verdana, Geneva, sans-serif;
-		border-right:				1px solid lighten(#1A1A1A, 25%);
-		height:						1em;
-		padding:					0.5em;
-		margin:						0px;
+		display:						inline-block;
+		font-family:					Verdana, Geneva, sans-serif;
+		border-right:					1px solid lighten(#1A1A1A, 25%);
+		height:							1em;
+		padding:						0.5em;
+		margin:							0px;
 
 		&:last-of-type
 		{
-			border-right:			none;
+			border-right:				none;
 		}
 
 		a
 		{
-			color:					lighten(#1A1A1A, 50%);
+			color:						lighten(#1A1A1A, 50%);
 
 			&:hover
 			{
-				color:				#FFFFFF;
+				color:					#FFFFFF;
 			}
 		}
 	}
 
 	section
 	{
-		display:					block;
+		display:						block;
 
 		&.overal
 		{
-			float:					right;
+			float:						right;
 		}
 
 		&.language
 		{
-			text-align:				center;
+			text-align:					center;
 
 			li
 			{
-				margin:				0.25em auto;
-				border-radius:		0.5em;
-				height:				0.5em;
-				background-color:	lighten(#1A1A1A, 25%);
+				margin:					0.25em auto;
+				height:					0.5em;
+				border:					none;
+
+				&.selected
+				{
+					box-shadow:			0.2em 0.2em 0.25em 0.05em #000000 inset;
+					border-radius:		0.5em;
+					background-color:	lighten(#1A1A1A, 25%);
+				}
 
 				img
 				{
-					margin:			-0.5em auto auto;
+					margin:				-0.5em auto auto;
 				}
 			}
 		}
 
 		&.account
 		{
-			float:					left;
+			float:						left;
+		}
+	}
+}
+
+.login-form
+{
+	padding:							0.5em;
+	position:							absolute;
+	border:								1px solid lighten(#000000, 10%);
+	border-radius:						0.25em;
+	margin:								0.25em 0 -7.35em 5em;
+	width:								11em;
+	height:								6em;
+	text-align:							center;
+	background-color:					darken(#FFFFFF, 5%);
+	display:							none;
+
+	input
+	{
+		display:						block;
+		margin:							0.3em auto;
+		max-width:						10em;
+		border-radius:					0.15em;
+
+		&[type="submit"]
+		{
+			.linear-gradient(#A5B8DA, 100%, #7089B3, 0%);
+			border-top:					1px solid #758FBA;
+			border-right:				1px solid #6C84AB;
+			border-bottom:				1px solid #5C6F91;
+			border-left:				1px solid #6C84AB;
+			border-radius:				0.5em;
+			box-shadow:					0.2em 0.2em 0.25em 0.05em #AEC3E5 inset;
+			color:						#FFFFFF;
+			width:						7em;
+			padding:					0.2em 0;
+			text-shadow:				0 -0.1em 0.1em #64799E;
+
+			&:hover
+			{
+				.linear-gradient(#9BADCC, 100%, #687FA6, 0%);
+				border-top:				1px solid #6D86AD;
+				border-right:			1px solid #647A9E;
+				border-bottom:			1px solid #546685;
+				border-left:			1px solid #647A9E;
+				box-shadow:				0.2em 0.2em 0.25em 0.05em #A5B9D9 inset;
+				cursor:					pointer;
+			}
+
+			&:active
+			{
+				border:					1px solid #546685;
+				box-shadow:				0.2em 0.2em 0.25em 0.05em #7E8DA6 inset;
+			}
+		}
+	}
+
+	a
+	{
+		color:							#000000;
+		font-size:						0.75em;
+
+		&:hover
+		{
+			text-decoration:			underline;
+		}
+	}
+}
+
+.marquee
+{
+	margin:								1em;
+	background-color:					lighten(#000000, 10%);
+	font-family:						ScoreBoard;
+	color:								#FF9900;
+	font-size:							2em;
+	letter-spacing:						0.15em;
+	overflow:							hidden;
+	box-shadow:							0.2em 0.2em 0.25em 0.05em #000000;
+	border-radius:						0.1em;
+	white-space:						nowrap;
+
+	&.fast
+	{
+		.marquee(scroll, reverse, infinite, fast, marquee-line);
+	}
+	&.normal
+	{
+		.marquee(scroll, reverse, infinite, normal, marquee-line);
+	}
+	&.slow
+	{
+		.marquee(scroll, reverse, infinite, slow, marquee-line);
+	}
+
+	span
+	{
+		&.bid
+		{
+			color:						#118C11;
+		}
+
+		&.ask
+		{
+			color:						#C91616;
+			&.title
+			{
+				margin-left:			3em;
+			}
 		}
 	}
 }
