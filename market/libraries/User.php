@@ -74,7 +74,7 @@ class User {
 	}
 
 	/**
-	 * Logs in the user
+	 * Logs the user in
 	 *
 	 * @return (bool) If it has logged in
 	 **/
