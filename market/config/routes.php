@@ -65,7 +65,7 @@
 */
 
 $route['default_controller'] = 'main';
-$route['404_override'] = '';
+$route['404_override'] = 'errors/page_not_found';
 
 // URI like '/en/about' -> use controller 'about'
 $route['^es/(.+)$'] = "$1";
