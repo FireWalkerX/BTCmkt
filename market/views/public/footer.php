@@ -1,10 +1,10 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-		<section class="footer">
-			Copyright © 2013 - Bitmarket
-			<!-- TODO -->
-		</section>
-	</section>
+	</div>
+	<footer class="footer">
+		Copyright © 2013 - Bitmarket
+		<!-- TODO -->
+	</footer>
 	<script charset="UTF-8" type="text/javascript" src="<?php echo site_url('js/jquery.js'); ?>"></script>
-	<script charset="UTF-8" type="text/javascript" src="<?php echo site_url('js/overal.js'); ?>"></script>
+	<script charset="UTF-8" type="text/javascript" src="<?php echo site_url('js/bootstrap.js'); ?>"></script>
 	</body>
 </html>

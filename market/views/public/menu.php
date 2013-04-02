@@ -1,5 +1,48 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-<nav class="top-menu">
+	<div class="navbar navbar-inverse navbar-fixed-top"><div class="navbar-inner">
+		<a class="brand" href="<?php echo site_url(); ?>">BTM-Logo</a>
+		<ul class="nav">
+			<li<?php if ( ! $this->uri->segment(2)) echo ' class="active"' ?>><a href="#"><?php echo lang('home'); ?></a></li>
+			<li<?php if ($this->uri->segment(2) === 'register') echo ' class="active"' ?>><?php echo anchor('register', lang('register')); ?></li>
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<?php echo lang('login'); ?><b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu form">
+					<?php echo form_open('#'); ?>
+						<input type="text" id="user" name="user" placeholder="<?php echo lang('login.username'); ?>">
+						<input type="password" id="pass" name="pass" placeholder="<?php echo lang('login.password'); ?>">
+						<?php echo anchor('login/reset_password', lang('login.reset_pass')); ?>
+						<input type="submit" value="<?php echo lang('login.submit'); ?>">
+					</form>
+				</ul>
+			</li>
+		</ul>
+		<ul class="nav pull-right">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				<?php echo lang('language'); ?><b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li<?php echo $this->lang->lang() === 'es' ? ' class="selected"' : ''; ?>>
+								<?php echo anchor($this->lang->switch_uri('es'), img(array(
+								'src' => 'img/lang/es.png',
+								'alt' => 'Español',
+								'title' => 'Español',
+								'width' => '24px',
+								'height' => '24px')).' Español') ?></li>
+					<li<?php echo $this->lang->lang() === 'en' ? ' class="selected"' : ''; ?>>
+								<?php echo anchor($this->lang->switch_uri('en'), img(array(
+								'src' => 'img/lang/en.png',
+								'alt' => 'English',
+								'title' => 'English',
+								'width' => '24px',
+								'height' => '24px')).' English') ?></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="container">
+<!--<nav class="navbar top-menu">
 	<ul>
 		<section class="account">
 			<li><?php echo anchor('register', lang('register')); ?></li>
@@ -10,6 +53,8 @@
 			<li><?php echo anchor('charts', lang('charts')); ?></li>
 			<li><?php echo anchor('contact', lang('contact')); ?></li>
 		</section>
+
+
 
 		<section class="language">
 			<li<?php echo $this->lang->lang() === 'es' ? ' class="selected"' : ''; ?>><?php echo anchor($this->lang->switch_uri('es'), img(array(
@@ -33,4 +78,4 @@
 	<input type="password" id="pass" name="pass" placeholder="<?php echo lang('login.password'); ?>">
 	<?php echo anchor('login/reset_password', lang('login.reset_pass')); ?>
 	<input type="submit" value="<?php echo lang('login.submit'); ?>">
-</form></section>
+</form></section>-->

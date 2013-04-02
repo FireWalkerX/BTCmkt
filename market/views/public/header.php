@@ -11,10 +11,11 @@
 		<meta name="generator" content="<?php echo config_item('script_name').'-'.config_item('script_version'); ?>">
 		<meta name="author" content="Razican, adri93">
 		<meta name="application-name" content="<?php echo config_item('script_name'); ?>">
+		<link rel="stylesheet" href="<?php echo site_url('css/bootstrap.css'); ?>" type="text/css">
+		<link rel="stylesheet" href="<?php echo site_url('css/bootstrap-responsive.css'); ?>" type="text/css">
 		<link rel="stylesheet" href="<?php echo site_url('css/public.css'); ?>" type="text/css">
 	</head>
 	<body>
 	<!--[if lt IE 7]>
 		<p class="chromeframe"><?php echo lang('outdated_br'); ?></p>
 	<![endif]-->
-	<section class="page">

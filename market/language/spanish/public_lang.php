@@ -1,9 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+$lang['home']				= 'Inicio';
 $lang['register']			= 'Registro';
 $lang['login']				= 'Entrar';
 $lang['charts']				= 'Gráficos';
 $lang['contact']			= 'Contactar';
+$lang['language']			= 'Lenguaje';
 
 //Marquee
 $lang['marquee.ask']		= 'ASK';

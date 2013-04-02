@@ -16,5 +16,3 @@ market/cache/*
 market/logs/*
 !market/logs/index.html
 !market/logs/.htaccess
-
-files/less/*.css
