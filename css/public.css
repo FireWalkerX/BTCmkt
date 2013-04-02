@@ -1,5 +1,6 @@
-@font-face{font-family:ScoreBoard;src:url('./../fonts/scoreboard.ttf');}body .container{border:1px solid #dddddd;border-radius:0.2em;padding:0.5em;background-color:#f6f6f6;margin-top:1em;}
+@font-face{font-family:ScoreBoard;src:url('./../fonts/scoreboard.ttf');}body .container{border:1px solid #dddddd;border-radius:0.2em;padding:0.5em;background-color:#f6f6f6;margin-top:4em;}
 a{text-decoration:none;}
+.brand img{padding-left:1em;}
 .nav .dropdown-menu{text-align:center;min-width:0;margin-right:0.5em;}.nav .dropdown-menu.form{padding:0.5em 1em;}
 .nav .dropdown-menu form{margin:0;}
 .nav .dropdown-menu input[type="text"],.nav .dropdown-menu input[type="password"]{width:10em;}

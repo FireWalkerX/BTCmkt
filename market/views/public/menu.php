@@ -1,6 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 	<div class="navbar navbar-inverse navbar-fixed-top"><div class="navbar-inner">
-		<a class="brand" href="<?php echo site_url(); ?>">BTM-Logo</a>
+		<a class="brand" href="<?php echo site_url(); ?>"><?php echo img(array(
+								'src' => 'img/logo.png',
+								'alt' => 'Bitcoin Market',
+								'title' => 'Bitcoin Market',
+								'width' => 100,
+								'height' => 18)); ?></a>
 		<ul class="nav">
 			<li<?php if ( ! $this->uri->segment(2)) echo ' class="active"' ?>><a href="#"><?php echo lang('home'); ?></a></li>
 			<li<?php if ($this->uri->segment(2) === 'register') echo ' class="active"' ?>><?php echo anchor('register', lang('register')); ?></li>
@@ -29,18 +34,18 @@
 								'alt' => 'Español',
 								'title' => 'Español',
 								'width' => '24px',
-								'height' => '24px')).' Español') ?></li>
+								'height' => '24px')).' Español'); ?></li>
 					<li<?php echo $this->lang->lang() === 'en' ? ' class="selected"' : ''; ?>>
 								<?php echo anchor($this->lang->switch_uri('en'), img(array(
 								'src' => 'img/lang/en.png',
 								'alt' => 'English',
 								'title' => 'English',
 								'width' => '24px',
-								'height' => '24px')).' English') ?></li>
+								'height' => '24px')).' English'); ?></li>
 				</ul>
 			</li>
 		</ul>
-	</div>
+	</div></div>
 	<div class="container">
 <!--<nav class="navbar top-menu">
 	<ul>

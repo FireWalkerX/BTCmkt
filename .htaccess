@@ -44,7 +44,7 @@ DirectoryIndex index.php
 		Header set Cache-Control "max-age=0, public"
 	</filesMatch>
 
-	<filesMatch "\.(css|js|php)$">
+	<filesMatch "\.(css|js|php|ttf)$">
 		AddDefaultCharset UTF-8
 	</filesMatch>
 </ifModule>
