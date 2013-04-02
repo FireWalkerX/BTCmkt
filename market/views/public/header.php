@@ -1,6 +1,9 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->lang->lang(); ?>">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="<?php echo $this->lang->lang(); ?>"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang="<?php echo $this->lang->lang(); ?>"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="<?php echo $this->lang->lang(); ?>"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="<?php echo $this->lang->lang(); ?>"> <!--<![endif]-->
 	<head>
 		<title><?php echo config_item('app_title'); ?></title>
 		<link rel="icon" href="<?php echo site_url('img/favicon.ico'); ?>">
@@ -11,4 +14,7 @@
 		<link rel="stylesheet" href="<?php echo site_url('css/public.css'); ?>" type="text/css">
 	</head>
 	<body>
+	<!--[if lt IE 7]>
+		<p class="chromeframe"><?php echo lang('outdated_br'); ?></p>
+	<![endif]-->
 	<section class="page">

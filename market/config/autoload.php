@@ -95,7 +95,7 @@ $autoload['libraries'] = array('database', 'bitcoin', 'user');
 |	$autoload['drivers'] = array('session', 'cache');
 */
 
-$autoload['drivers'] = array('session');
+$autoload['drivers'] = array();
 
 
 /*
@@ -139,7 +139,7 @@ $autoload['config'] = array('server', 'info', 'script');
 |
 */
 
-$autoload['language'] = array();
+$autoload['language'] = array('overal');
 
 
 /*
