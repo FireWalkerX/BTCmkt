@@ -14,8 +14,13 @@ $lang['marquee.bid']		= 'BID';
 //Login form
 $lang['login.username']		= 'Usuario';
 $lang['login.password']		= 'Contraseña';
-$lang['login.submit']		= 'Entrar';
 $lang['login.reset_pass']	= "¿Has olvidado la contraseña?";
+$lang['login.submit']		= 'Entrar';
+
+//Register form
+$lang['reg.email']			= 'Correo electrónico';
+$lang['reg.pass_conf']		= 'Repite la contraseña';
+$lang['reg.submit']			= 'Regístrate';
 
 //Error pages
 $lang['404_title']			= 'Error 404 - Página no encontrada';

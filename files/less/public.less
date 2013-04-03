@@ -54,9 +54,9 @@ a
 	text-decoration:					none;
 }
 
-.brand img
+.navbar .brand
 {
-	padding-left:						1em;
+	padding:							0.4em 1em 0.4em 2em;
 }
 
 .nav .dropdown-menu
@@ -75,41 +75,9 @@ a
 		margin:							0;
 	}
 
-	input[type="text"], input[type="password"]
+	input[type="text"], input[type="password"], input[type="email"]
 	{
 		width:							10em;
-	}
-
-	input[type="submit"]
-	{
-		.linear-gradient(#A5B8DA, 100%, #7089B3, 0%);
-		border-top:						1px solid #758FBA;
-		border-right:					1px solid #6C84AB;
-		border-bottom:					1px solid #5C6F91;
-		border-left:					1px solid #6C84AB;
-		border-radius:					0.5em;
-		box-shadow:						0.2em 0.2em 0.25em 0.05em #AEC3E5 inset;
-		color:							#FFFFFF;
-		width:							7em;
-		padding:						0.2em 0;
-		text-shadow:					0 -0.1em 0.1em #64799E;
-
-		&:hover
-		{
-			.linear-gradient(#9BADCC, 100%, #687FA6, 0%);
-			border-top:					1px solid #6D86AD;
-			border-right:				1px solid #647A9E;
-			border-bottom:				1px solid #546685;
-			border-left:				1px solid #647A9E;
-			box-shadow:					0.2em 0.2em 0.25em 0.05em #A5B9D9 inset;
-			cursor:						pointer;
-		}
-
-		&:active
-		{
-			border:						1px solid #546685;
-			box-shadow:					0.2em 0.2em 0.25em 0.05em #7E8DA6 inset;
-		}
 	}
 
 	a
@@ -121,7 +89,7 @@ a
 .marquee
 {
 	margin:								1em;
-	padding:							0.3em;
+	padding:							0.1em;
 	background-color:					lighten(#000000, 10%);
 	font-family:						ScoreBoard;
 	color:								#FF9900;
@@ -131,6 +99,7 @@ a
 	box-shadow:							0.2em 0.2em 0.25em 0.05em #000000;
 	border-radius:						0.15em;
 	white-space:						nowrap;
+	line-height:						normal;
 
 	&.fast
 	{

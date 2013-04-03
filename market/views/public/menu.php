@@ -4,21 +4,35 @@
 								'src' => 'img/logo.png',
 								'alt' => 'Bitcoin Market',
 								'title' => 'Bitcoin Market',
-								'width' => 100,
-								'height' => 18)); ?></a>
+								'width' => 135,
+								'height' => 25)); ?></a>
 		<ul class="nav">
 			<li<?php if ( ! $this->uri->segment(2)) echo ' class="active"' ?>><a href="#"><?php echo lang('home'); ?></a></li>
-			<li<?php if ($this->uri->segment(2) === 'register') echo ' class="active"' ?>><?php echo anchor('register', lang('register')); ?></li>
+			<!-- TODO charts, contact -->
+			<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+					<?php echo lang('register'); ?><b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu form">
+					<?php echo form_open('#'); ?>
+						<input type="text" name="user" placeholder="<?php echo lang('login.username'); ?>">
+						<input type="email" name="email" placeholder="<?php echo lang('reg.email'); ?>">
+						<input type="password" name="pass" placeholder="<?php echo lang('login.password'); ?>">
+						<input type="password" name="pass_conf" placeholder="<?php echo lang('reg.pass_conf'); ?>">
+						<input class="btn btn-info" type="submit" id="register" value="<?php echo lang('reg.submit'); ?>">
+					</form>
+				</ul>
+			</li>
 			<li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 					<?php echo lang('login'); ?><b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu form">
 					<?php echo form_open('#'); ?>
-						<input type="text" id="user" name="user" placeholder="<?php echo lang('login.username'); ?>">
-						<input type="password" id="pass" name="pass" placeholder="<?php echo lang('login.password'); ?>">
+						<input type="text" name="user" placeholder="<?php echo lang('login.username'); ?>">
+						<input type="password" name="pass" placeholder="<?php echo lang('login.password'); ?>">
 						<?php echo anchor('login/reset_password', lang('login.reset_pass')); ?>
-						<input type="submit" value="<?php echo lang('login.submit'); ?>">
+						<input class="btn btn-info" type="submit" id="login" value="<?php echo lang('login.submit'); ?>">
 					</form>
 				</ul>
 			</li>

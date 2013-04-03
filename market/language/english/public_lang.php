@@ -17,6 +17,11 @@ $lang['login.password']		= 'Password';
 $lang['login.submit']		= 'Log in';
 $lang['login.reset_pass']	= 'Did you forget your password?';
 
+//Register form
+$lang['reg.email']			= 'E-mail';
+$lang['reg.pass_conf']		= 'Repite la contraseña';
+$lang['reg.submit']			= 'Regístrate';
+
 //Error pages
 $lang['404_title']			= '404 Error - Page not found';
 $lang['404_heading']		= 'Not found';
