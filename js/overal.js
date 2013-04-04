@@ -1,1 +1,0 @@
-(function(){$(function(){$("#login").click(function(){return $(".login-form").slideDown("slow")});return $(document).click(function(a){if("login"!==a.target.id)return $(".login-form").slideUp("slow")})})}).call(this);
