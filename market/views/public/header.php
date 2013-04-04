@@ -14,6 +14,10 @@
 		<link rel="stylesheet" href="<?php echo site_url('css/bootstrap.css'); ?>" type="text/css">
 		<link rel="stylesheet" href="<?php echo site_url('css/bootstrap-responsive.css'); ?>" type="text/css">
 		<link rel="stylesheet" href="<?php echo site_url('css/public.css'); ?>" type="text/css">
+		<script type="text/javascript">
+			var user_not_valid_title = '<?php echo lang('user_not_valid_title'); ?>';
+			var user_not_valid = '<?php echo lang('user_not_valid'); ?>';
+		</script>
 	</head>
 	<body>
 	<!--[if lt IE 7]>

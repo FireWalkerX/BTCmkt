@@ -641,7 +641,7 @@ class CI_Session_cookie extends CI_Session_driver {
 		$new_sessid = '';
 		do
 		{
-			$new_sessid .= mt_rand(0, mt_getrandmax());
+			$new_sessid .= mt_rand();
 		}
 		while (strlen($new_sessid) < 32);
 
@@ -832,7 +832,6 @@ class CI_Session_cookie extends CI_Session_driver {
 		$probability = ini_get('session.gc_probability');
 		$divisor = ini_get('session.gc_divisor');
 
-		srand(time());
 		if ((mt_rand(0, $divisor) / $divisor) < $probability)
 		{
 			$expire = $this->now - $this->sess_expiration;
@@ -845,4 +844,4 @@ class CI_Session_cookie extends CI_Session_driver {
 }
 
 /* End of file Session_cookie.php */
-/* Location: ./engine/libraries/Session/drivers/Session_cookie.php */
+/* Location: ./system/libraries/Session/drivers/Session_cookie.php */

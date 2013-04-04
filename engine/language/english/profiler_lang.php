@@ -49,4 +49,4 @@ $lang['profiler_section_show']	= 'Show';
 $lang['profiler_seconds']		= 'seconds';
 
 /* End of file profiler_lang.php */
-/* Location: ./engine/language/english/profiler_lang.php */
+/* Location: ./system/language/english/profiler_lang.php */

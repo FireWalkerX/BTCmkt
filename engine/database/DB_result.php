@@ -655,4 +655,4 @@ class CI_DB_result {
 }
 
 /* End of file DB_result.php */
-/* Location: ./engine/database/DB_result.php */
+/* Location: ./system/database/DB_result.php */
