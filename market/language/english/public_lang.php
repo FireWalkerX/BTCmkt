@@ -20,6 +20,8 @@ $lang['login.reset_pass']		= 'Did you forget your password?';
 //Tooltips
 $lang['user_not_valid_title']	= 'User not valid';
 $lang['user_not_valid']			= 'User can only contain alphanumerical characters, hyphens (-) and underscores (_), and must be between 4 and 15 characters in length.';
+$lang['email_not_valid_title']	= 'E-mail not valid';
+$lang['email_not_valid']		= 'The e-mail you entered is not a valid email, please check it.';
 
 //Register form
 $lang['reg.email']				= 'E-mail';

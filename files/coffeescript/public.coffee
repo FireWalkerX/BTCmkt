@@ -7,30 +7,27 @@ $ ->
 			pass_conf	= $('#register input[name="pass_conf"]')
 			pass		= true
 
-		#	if ( ! /^([\w_-]{4,15})$/.test(username.val()))
-		#		username.addClass('error')
-		#		#TODO add tooltip message
-		#		username.tooltip('show')
-		#		pass = false
+			if ( ! /^([\w_-]{4,15})$/.test(username.val()))
+				username.addClass('error')
+				username.popover({
+					'placement': 'right'
+					'trigger': 'focus'
+					'title': user_not_valid_title
+					'content': user_not_valid
+					'container': 'body'
+				})
+				pass = false
 
-		if ( ! /^([\w_-]{4,15})$/.test(username.val()))
-			username.addClass('error')
-			username.popover({
-				'placement': 'right'
-				'trigger': 'manual'
-				'title': user_not_valid_title
-				'content': user_not_valid
-			})
-			username.popover('show')
-			pass = false
-
-		#	password.popover({
-		#		'placement': 'right'
-		#		'trigger': 'manual'
-		#		'title': user_not_valid_title
-		#		'content': user_not_valid
-		#	})
-		#	password.popover('show')
+			if ( ! /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(email.val()))
+				email.addClass('error')
+				email.popover({
+					'placement': 'right'
+					'trigger': 'focus'
+					'title': email_not_valid_title
+					'content': email_not_valid
+					'container': 'body'
+				})
+				pass = false
 
 			#TODO
 	)
@@ -45,5 +42,10 @@ $ ->
 		#register input[name="pass_conf"], #login input[name="user"], #login input[name="pass"]').focus(
 		->
 			$(this).removeClass('error')
-			$(this).popover('hide')
+	)
+
+	$('#register input[name="user"], #register input[name="email"], #register input[name="pass"],
+		#register input[name="pass_conf"], #login input[name="user"], #login input[name="pass"]').focusout(
+		->
+			$(this).popover('destroy')
 	)

@@ -17,6 +17,8 @@
 		<script type="text/javascript">
 			var user_not_valid_title = '<?php echo lang('user_not_valid_title'); ?>';
 			var user_not_valid = '<?php echo lang('user_not_valid'); ?>';
+			var email_not_valid_title = '<?php echo lang('email_not_valid_title'); ?>';
+			var email_not_valid = '<?php echo lang('email_not_valid'); ?>';
 		</script>
 	</head>
 	<body>

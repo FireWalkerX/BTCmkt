@@ -25,6 +25,8 @@ $lang['reg.submit']				= 'Regístrate';
 //Tooltips
 $lang['user_not_valid_title']	= 'Usuario no válido';
 $lang['user_not_valid']			= 'El usuario solo puede contener caracteres alfanuméricos, guiones (-) y guiones bajos (_), y debe tener entre 4 y 15 caracteres.';
+$lang['email_not_valid_title']	= 'Correo electrónico no válido';
+$lang['email_not_valid']		= 'El correo electrónico introducido no es válido, por favor, compruébalo.';
 
 //Error pages
 $lang['404_title']				= 'Error 404 - Página no encontrada';
