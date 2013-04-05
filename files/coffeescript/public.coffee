@@ -13,18 +13,24 @@ $ ->
 		#		username.tooltip('show')
 		#		pass = false
 
-			if ( ! /^([\w_-]{4,15})$/.test(username.val()))
-				username.addClass('error')
-				username.popover({
-					'placement': 'right'
-					'trigger': 'manual'
-					'title': user_not_valid_title
-					'content': user_not_valid
-				#	'container': 'html'
-				})
-				#TODO add tooltip message
-				username.popover('show')
-				pass = false
+		if ( ! /^([\w_-]{4,15})$/.test(username.val()))
+			username.addClass('error')
+			username.popover({
+				'placement': 'right'
+				'trigger': 'manual'
+				'title': user_not_valid_title
+				'content': user_not_valid
+			})
+			username.popover('show')
+			pass = false
+
+		#	password.popover({
+		#		'placement': 'right'
+		#		'trigger': 'manual'
+		#		'title': user_not_valid_title
+		#		'content': user_not_valid
+		#	})
+		#	password.popover('show')
 
 			#TODO
 	)
@@ -39,5 +45,5 @@ $ ->
 		#register input[name="pass_conf"], #login input[name="user"], #login input[name="pass"]').focus(
 		->
 			$(this).removeClass('error')
-			$(this).tooltip('hide')
+			$(this).popover('hide')
 	)
