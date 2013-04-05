@@ -19,6 +19,14 @@
 			var user_not_valid = '<?php echo lang('user_not_valid'); ?>';
 			var email_not_valid_title = '<?php echo lang('email_not_valid_title'); ?>';
 			var email_not_valid = '<?php echo lang('email_not_valid'); ?>';
+			var pass_not_valid_title = '<?php echo lang('pass_not_valid_title'); ?>';
+			var pass_not_valid = '<?php echo lang('pass_not_valid'); ?>';
+			var user_in_use_title = '<?php echo lang('user_in_use_title'); ?>';
+			var user_in_use = '<?php echo lang('user_in_use'); ?>';
+			var email_in_use_title = '<?php echo lang('email_in_use_title'); ?>';
+			var email_in_use = '<?php echo lang('email_in_use'); ?>';
+			var email_check_error_title = '<?php echo lang('email_check_error_title'); ?>';
+			var email_check_error = '<?php echo lang('email_check_error'); ?>';
 		</script>
 	</head>
 	<body>

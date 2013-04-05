@@ -355,7 +355,7 @@ $config['csrf_token_name'] = 'bm_csrf_token';
 $config['csrf_cookie_name'] = 'bm_csrf_cookie';
 $config['csrf_expire'] = 7200; //2*60*60
 $config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_exclude_uris'] = array('login', 'login/register');
 
 /*
 |--------------------------------------------------------------------------

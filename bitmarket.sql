@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 31-03-2013 a las 22:12:55
+-- Tiempo de generación: 05-04-2013 a las 22:15:20
 -- Versión del servidor: 5.5.29
 -- Versión de PHP: 5.4.6-1ubuntu1.2
 
@@ -43,13 +43,13 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 -- Estructura de tabla para la tabla `users`
 --
--- Creación: 31-03-2013 a las 19:41:59
--- Última actualización: 31-03-2013 a las 19:41:59
+-- Creación: 05-04-2013 a las 20:14:58
+-- Última actualización: 05-04-2013 a las 20:14:58
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(25) NOT NULL,
+  `username` varchar(15) NOT NULL,
   `password` char(40) NOT NULL,
   `email` varchar(35) NOT NULL,
   `lastAdrChange` int(10) unsigned NOT NULL DEFAULT '0',
@@ -58,7 +58,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `money` text NOT NULL,
   `settings` text NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`,`email`)
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

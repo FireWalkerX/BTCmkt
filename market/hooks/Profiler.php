@@ -14,7 +14,7 @@ function profiler()
 	log_message('debug', 'Profiler hook initialised.');
 	$CI			=& get_instance();
 
-	$CI->output->enable_profiler(ENVIRONMENT === 'development');
+	$CI->output->enable_profiler(ENVIRONMENT === 'development' && ! $CI->input->is_ajax_request());
 }
 
 

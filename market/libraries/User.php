@@ -74,31 +74,6 @@ class User {
 	}
 
 	/**
-	 * Logs the user in
-	 *
-	 * @return (bool) If it has logged in
-	 **/
-	public function log_in($username, $password)
-	{
-		$CI =& get_instance();
-		$db_password = sha1($password);
-
-		$CI->db->where('username', $username);
-		$CI->db->where('password', $db_password);
-		$CI->db->select('id');
-		$query = $CI->db->get('users');
-
-		if ($query->num_rows() === 1)
-		{
-			foreach ($query->result() as $user);
-			$CI->session->set_userdata('user_id', (int) $user->id);
-			$CI->session->set_userdata('logged_in', TRUE);
-		}
-
-		return $query->num_rows() > 0;
-	}
-
-	/**
 	 * Gets a user setting
 	 *
 	 * @param (string) The setting to check
@@ -112,6 +87,97 @@ class User {
 		}
 
 		return NULL;
+	}
+
+	/**
+	 * Logs the user in
+	 *
+	 * @return (array) With this format:
+	 *			user -> (bool) if exists
+	 *			pass -> (bool) if it's correct
+	 **/
+	public function log_in($username, $password)
+	{
+		$CI =& get_instance();
+		$db_password = sha1($password);
+
+		$CI->db->where('username', $username);
+		$CI->db->where('password', $db_password);
+		$CI->db->select('id');
+		$query = $CI->db->get('users');
+
+		$result = array();
+
+		if ($query->num_rows() === 1)
+		{
+			foreach ($query->result() as $user);
+			$CI->session->set_userdata('user_id', (int) $user->id);
+			$CI->session->set_userdata('logged_in', TRUE);
+
+			$result['user'] = TRUE;
+			$result['pass'] = TRUE;
+		}
+		else
+		{
+			$CI->db->where('username', $username);
+			$result['user'] = $CI->db->count_all_results() === 1;
+			$result['pass'] = FALSE;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Registers a new user
+	 *
+	 * @return (array) With this format:
+	 *			user -> (bool) if the user is valid (it will
+	 *					be valid if it is not in the database)
+	 *			email -> (int) if the email is valid (int(0) if
+	 *					the email is correct, int(1) if it's in use
+	 *					and int(2) if the mx_check fails)
+	 **/
+	public function register($username, $email, $password)
+	{
+		$CI =& get_instance();
+		$db_password = sha1($password);
+		$now = now();
+		$result = array();
+
+		$domain = explode('@', $email);
+		$valid_email = (bool) getmxrr($domain[1], $mxhost);
+
+		$CI->db->where('username', $username);
+		$result['user'] = $CI->db->count_all_results() === 0;
+
+		$CI->db->where('email', $email);
+		$result['email'] = $CI->db->count_all_results();
+
+		if ($valid_email && $result['user'] && $result['email'] === 0)
+		{
+			$data = array(
+				'username'		=> $username,
+				'password'		=> $db_password,
+				'email'			=> $email,
+				'lastAdrChange'	=> $now,
+				'reg_time'		=> $now,
+				'last_active'	=> $now,
+				'money'			=> 'a:0:{}',
+				'settings'		=> 'a:0:{}'
+				);
+			$query = $CI->db->insert('users', $data);
+
+			$CI->db->select('id');
+			$query = $CI->db->get('users');
+			foreach ($query->result() as $row);
+			$CI->bitcoin->getnewaddress($row->id);
+		}
+		else
+		{
+			$result['email'] = ! $valid_email ? 2 : $result['email'];
+		}
+
+		return $result;
 	}
 }
 
