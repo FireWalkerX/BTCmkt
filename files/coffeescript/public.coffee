@@ -5,7 +5,7 @@ $ ->
 			email		= $('#register input[name="email"]')
 			password	= $('#register input[name="pass"]')
 			pass_conf	= $('#register input[name="pass_conf"]')
-			test_pass	= true
+			test_pass = true
 
 			if ( ! /^([\w_-]{4,15})$/.test(username.val()))
 				username.addClass('error')
@@ -80,15 +80,15 @@ $ ->
 					'json'
 				)
 
-				alert(test_pass)
-			#	document.location.reload(test_pass)
+			#	if (test_pass)
+			#		document.location.reload(true)
 	)
 
 	$('#login input[type="button"]').click(
 		->
-			username	= $('#login input[name="user"]')
-			password	= $('#login input[name="pass"]')
-			test_pass	= true
+			username = $('#login input[name="user"]')
+			password = $('#login input[name="pass"]')
+			test_pass = true
 
 			$.post(
 				'login'
@@ -124,7 +124,8 @@ $ ->
 				'json'
 			)
 
-			document.location.reload(test_pass)
+		#	if (test_pass)
+		#		document.location.reload(true)
 	)
 
 	$('#register input[name="user"], #register input[name="email"], #register input[name="pass"],

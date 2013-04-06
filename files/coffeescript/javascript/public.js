@@ -47,7 +47,7 @@
         test_pass = false;
       }
       if (test_pass) {
-        $.post('login/register', {
+        return $.post('login/register', {
           user: username.val(),
           email: email.val(),
           pass: password.val()
@@ -76,7 +76,6 @@
             }
           });
         }, 'json');
-        return alert(test_pass);
       }
     });
     $('#login input[type="button"]').click(function() {
@@ -85,7 +84,7 @@
       username = $('#login input[name="user"]');
       password = $('#login input[name="pass"]');
       test_pass = true;
-      $.post('login', {
+      return $.post('login', {
         user: username.val(),
         pass: password.val()
       }, function(data) {
@@ -113,7 +112,6 @@
           }
         });
       }, 'json');
-      return document.location.reload(test_pass);
     });
     $('#register input[name="user"], #register input[name="email"], #register input[name="pass"],\
 		#register input[name="pass_conf"], #login input[name="user"], #login input[name="pass"]').focus(function() {
