@@ -12,6 +12,7 @@ class Main extends CI_Controller {
 		if ($this->user->is_logged_in())
 		{
 			//TODO
+			$this->config->set_item('compress_output', FALSE);
 			echo 'Logged in';
 		}
 		else

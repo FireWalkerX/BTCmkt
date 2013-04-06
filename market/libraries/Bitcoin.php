@@ -33,28 +33,28 @@ class Bitcoin {
 	 **/
 	public function getaccount($bitcoinaddress)
 	{
-		return $this->connect('getaccount', array($bitcoinaddress));
+		return $this->connect('getaccount', array((string) $bitcoinaddress));
 	}
 
 	/**
 	 * Returns the current bitcoin address for receiving payments to this account.
 	 *
-	 * @param (string) account - The account to check
+	 * @param (int) account - The account to check
 	 **/
 	public function getaccountaddress($account)
 	{
-		return $this->connect('getaccountaddress', array($account));
+		return $this->connect('getaccountaddress', array((string) (int) $account));
 	}
 
 	/**
 	 * Returns the balance in the account.
 	 *
-	 * @param (string) account - The account to check
+	 * @param (int) account - The account to check
 	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
 	 **/
 	public function getbalance($account, $minconf = 6)
 	{
-		return $this->connect('getaccountaddress', array($account, (int) $minconf));
+		return $this->connect('getbalance', array((string) (int) $account, (int) $minconf));
 	}
 
 	/**
@@ -64,7 +64,7 @@ class Bitcoin {
 	 **/
 	public function getconnectioncount()
 	{
-		return $this->connect('getaccountaddress');
+		return $this->connect('getconnectioncount');
 	}
 
 	/**
@@ -79,22 +79,22 @@ class Bitcoin {
 	 * Returns a new bitcoin address for receiving payments.
 	 * It is added to the address book so payments received with the address will be credited to the account.
 	 *
-	 * @param (string) account - The account for the new address
+	 * @param (int) account - The account for the new address
 	 **/
 	public function getnewaddress($account)
 	{
-		return $this->connect('getnewaddress', array($account));
+		return $this->connect('getnewaddress', array((string) (int) $account));
 	}
 
 	/**
 	 * Returns the total amount received by the account in transactions with a minimum confirmations.
 	 *
-	 * @param (string) account - The account to check
+	 * @param (int) account - The account to check
 	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
 	 **/
 	public function getreceivedbyaccount($account, $minconf = 6)
 	{
-		return $this->connect('getaccountaddress', array($account, (int) $minconf));
+		return $this->connect('getreceivedbyaccount', array((string) (int) $account, (int) $minconf));
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Bitcoin {
 	 **/
 	public function gettransaction($txid)
 	{
-		return $this->connect('gettransaction', array($txid));
+		return $this->connect('gettransaction', array((string) $txid));
 	}
 
 	/**
@@ -155,13 +155,13 @@ class Bitcoin {
 	/**
 	 * Returns the most recent transactions skipping the first given transactions for the given account.
 	 *
-	 * @param (string account - The account to check
+	 * @param (int) account - The account to check
 	 * @param (int) count - The number of transactions to return
 	 * @param (int) from - The number of transactions to skip
 	 **/
 	public function listtransactions($account, $count = 10, $from = 0)
 	{
-		return $this->connect('listtransactions', array($account, (int) $count, (int) $from));
+		return $this->connect('listtransactions', array((string) (int) $account, (int) $count, (int) $from));
 	}
 
 	/**
@@ -179,22 +179,23 @@ class Bitcoin {
 	 * Move from one account in your wallet to another. It won't use Bitcoin network, and thus,
 	 * whon't cost any fee.
 	 *
-	 * @param (string) fromaccount - The account from which to transfer funds
-	 * @param (string) toaccount - The account to which send funds
+	 * @param (int) fromaccount - The account from which to transfer funds
+	 * @param (int) toaccount - The account to which send funds
 	 * @param (double) amount - The amount to send (rounded to 8 decimal places)
 	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
 	 * @param (string) comment - The comment for the move
 	 **/
 	public function move($fromaccount, $toaccount, $amount, $minconf = 6, $comment = '')
 	{
-		return $this->connect('move', array($fromaccount, $toaccount, (double) $amount, (int) $minconf, $comment));
+		return $this->connect('move', array((string) (int) $fromaccount, (string) (int) $toaccount,
+											(double) $amount, (int) $minconf, (string) $comment));
 	}
 
 	/**
 	 * Will send the given amount to the given address, ensuring the account has a valid balance
 	 * using given confirmations.
 	 *
-	 * @param (string) fromaccount - The account from which to transfer funds
+	 * @param (int) fromaccount - The account from which to transfer funds
 	 * @param (string) tobitcoinaddress - The Bitcoin address for receiving the funds
 	 * @param (double) amount - The amount to send (rounded to 8 decimal places)
 	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
@@ -204,14 +205,15 @@ class Bitcoin {
 	 **/
 	public function sendfrom($fromaccount, $tobitcoinaddress, $amount, $minconf = 6, $comment = '', $comment_to = '')
 	{
-		return $this->connect('sendfrom', array($fromaccount, $tobitcoinaddress, (double) $amount, (int) $minconf, $comment, $comment_to));
+		return $this->connect('sendfrom', array((string) (int) $fromaccount, (string) $tobitcoinaddress, (double) $amount,
+											(int) $minconf, (string) $comment, (string) $comment_to));
 	}
 
 	/**
 	 * Sends multiple transactions at one time. It will use a send array to
 	 * send different amounts to each address.
 	 *
-	 * @param (string) fromaccount - The account from which to transfer funds
+	 * @param (int) fromaccount - The account from which to transfer funds
 	 * @param (array) send_array - The array with the amounts to send,
 	 *		in (string) key|address => (double) amount (rounded to 8 decimal places) format
 	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
@@ -219,7 +221,7 @@ class Bitcoin {
 	 **/
 	public function sendmany($fromaccount, $send_array, $minconf = 6, $comment = '')
 	{
-		return $this->connect('sendmany', array($fromaccount, json_encode($send_array), (int) $minconf, $comment));
+		return $this->connect('sendmany', array((string) (int) $fromaccount, json_encode($send_array), (int) $minconf, (string) $comment));
 	}
 
 	/**
@@ -232,7 +234,7 @@ class Bitcoin {
 	 **/
 	public function sendtoaddress($bitcoinaddress, $amount, $comment = '', $comment_to = '')
 	{
-		return $this->connect('sendtoaddress', array($bitcoinaddress, (double) $amount, $comment, $comment_to));
+		return $this->connect('sendtoaddress', array((string) $bitcoinaddress, (double) $amount, (string) $comment, (string) $comment_to));
 	}
 
 	/**
@@ -244,7 +246,7 @@ class Bitcoin {
 	 **/
 	public function signmessage($bitcoinaddress, $message)
 	{
-		return $this->connect('signmessage', array($bitcoinaddress, $message));
+		return $this->connect('signmessage', array((string) $bitcoinaddress, (string) $message));
 	}
 
 	/**
@@ -260,11 +262,11 @@ class Bitcoin {
 	/**
 	 * Return information about a given address.
 	 *
-	 * @param $bitcoinaddress - The address to check
+	 * @param (string) $bitcoinaddress - The address to check
 	 **/
 	public function validateaddress($bitcoinaddress)
 	{
-		return $this->connect('settxfee', array($bitcoinaddress));
+		return $this->connect('settxfee', array((string) $bitcoinaddress));
 	}
 
 	/**
@@ -277,7 +279,7 @@ class Bitcoin {
 	 **/
 	public function verifymessage($bitcoinaddress, $signature, $message)
 	{
-		return $this->connect('verifymessage', array($bitcoinaddress, $signature, $message));
+		return (bool) $this->connect('verifymessage', array((string) $bitcoinaddress, (string) $signature, (string) $message));
 	}
 
 	/**
@@ -287,7 +289,7 @@ class Bitcoin {
 	 **/
 	public function walletlock()
 	{
-		return $this->connect('walletlock');
+		$this->connect('walletlock');
 	}
 
 	/**
@@ -298,18 +300,18 @@ class Bitcoin {
 	 **/
 	public function walletpassphrase($passphrase, $timeout)
 	{
-		return $this->connect('walletpassphrase', array($passphrase, (int) $timeout));
+		return $this->connect('walletpassphrase', array((string) $passphrase, (int) $timeout));
 	}
 
 	/**
 	 * Changes the wallet passphrase.
 	 *
-	 * @param oldpassphrase - The old passphrase
-	 * @param newpassphrase - The new passphrase to set
+	 * @param (string) oldpassphrase - The old passphrase
+	 * @param (string) newpassphrase - The new passphrase to set
 	 **/
 	public function walletpassphrasechange($oldpassphrase, $newpassphrase)
 	{
-		return $this->connect('walletpassphrasechange', array($oldpassphrase, $newpassphrase));
+		return $this->connect('walletpassphrasechange', array((string) $oldpassphrase, (string) $newpassphrase));
 	}
 
 	/**
