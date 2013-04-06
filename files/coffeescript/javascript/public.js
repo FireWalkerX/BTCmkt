@@ -53,8 +53,6 @@
           pass: password.val()
         }, function(data) {
           return $.each(data, function(key, value) {
-            var _ref, _ref1;
-
             if (key === 'user' && !value) {
               username.addClass('error');
               username.popover({
@@ -70,23 +68,52 @@
               email.popover({
                 'placement': 'right',
                 'trigger': 'focus',
-                'title': (_ref = value === 1) != null ? _ref : {
-                  email_in_use_title: email_check_error_title
-                },
-                'content': (_ref1 = value === 1) != null ? _ref1 : {
-                  email_in_use: email_check_error
-                },
+                'title': value === 1 ? email_in_use_title : email_check_error_title,
+                'content': value === 1 ? email_in_use : email_check_error,
                 'container': 'body'
               });
               return test_pass = false;
             }
           });
         }, 'json');
-        return document.location.reload(test_pass);
+        return alert(test_pass);
       }
     });
     $('#login input[type="button"]').click(function() {
-      return alert('login');
+      var password, test_pass, username;
+
+      username = $('#login input[name="user"]');
+      password = $('#login input[name="pass"]');
+      test_pass = true;
+      $.post('login', {
+        user: username.val(),
+        pass: password.val()
+      }, function(data) {
+        return $.each(data, function(key, value) {
+          if (key === 'user' && !value) {
+            username.addClass('error');
+            username.popover({
+              'placement': 'right',
+              'trigger': 'focus',
+              'title': user_not_exist_title,
+              'content': user_not_exist,
+              'container': 'body'
+            });
+            return test_pass = false;
+          } else if (key === 'pass' && !value) {
+            password.addClass('error');
+            password.popover({
+              'placement': 'right',
+              'trigger': 'focus',
+              'title': incorrect_pass_title,
+              'content': incorrect_pass,
+              'container': 'body'
+            });
+            return test_pass = false;
+          }
+        });
+      }, 'json');
+      return document.location.reload(test_pass);
     });
     $('#register input[name="user"], #register input[name="email"], #register input[name="pass"],\
 		#register input[name="pass_conf"], #login input[name="user"], #login input[name="pass"]').focus(function() {

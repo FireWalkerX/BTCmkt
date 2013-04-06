@@ -30,6 +30,10 @@ $lang['email_in_use_title']			= 'E-mail in use';
 $lang['email_in_use']				= 'There is already a user with that email, please introduce a different one.';
 $lang['email_check_error_title']	= 'E-mail check error';
 $lang['email_check_error']			= 'There has been an error when checking the email, please check if you have written it correctly or introduce a different one.';
+$lang['user_not_exist_title']		= 'The user does not exist';
+$lang['user_not_exist']				= 'The user does not exist, please, check it.';
+$lang['incorrect_pass_title']		= 'Incorrect password';
+$lang['incorrect_pass']				= 'The password is not correct, please, check it.';
 
 //Register form
 $lang['reg.email']					= 'E-mail';

@@ -32,6 +32,8 @@ function language()
 			log_message('debug', 'Redirect to '.$language.'/'.$CI->uri->uri_string());
 			redirect($language.'/'.$CI->uri->uri_string(), 'location', 302);
 		}
+
+		//TODO if user is logged in, set user's language
 	}
 }
 

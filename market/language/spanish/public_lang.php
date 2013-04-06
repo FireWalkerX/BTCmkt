@@ -35,6 +35,10 @@ $lang['email_in_use_title']			= 'Correo electrónico en uso';
 $lang['email_in_use']				= 'Ya hay un usuario con ese correo electrónico, por favor, introduce otro.';
 $lang['email_check_error_title']	= 'Error de comprobación';
 $lang['email_check_error']			= 'Al intentar comprobar el correo no hemos podido validarlo, por favor, comprueba que lo hayas escrito correctamente o usa uno distinto.';
+$lang['user_not_exist_title']		= 'El usuario no existe';
+$lang['user_not_exist']				= 'El usuario introducido no existe, por favor, compruébalo.';
+$lang['incorrect_pass_title']		= 'Contraseña incorrecta';
+$lang['incorrect_pass']				= 'La contraseña introducida no es correcta, por favor, compruébala.';
 
 //Error pages
 $lang['404_title']					= 'Error 404 - Página no encontrada';

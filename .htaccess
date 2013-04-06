@@ -31,11 +31,11 @@ DirectoryIndex index.php
 <ifModule mod_headers.c>
 	Header set X-UA-Compatible "IE=Edge,chrome=1"
 
-	<FilesMatch "\.(js|css|gif|png|jpe?g|pdf|xml|oga|ogg|m4a|ogv|mp4|m4v|webm|svg|svgz|eot|ttf|otf|woff|ico|webp|appcache|manifest|htc|crx|oex|xpi|safariextz|vcf)$" >
+	<FilesMatch "\.(js|css|gif|png|jpe?g|pdf|xml|svg|ttf|ico)$" >
 		Header unset X-UA-Compatible
 	</FilesMatch>
 
-	<filesMatch "\.(jpg|png|css|js|ttf)$">
+	<filesMatch "\.(jpe?g|png|css|js|ttf)$">
 		Header set Cache-Control "max-age=604800, public"
 	</filesMatch>
 

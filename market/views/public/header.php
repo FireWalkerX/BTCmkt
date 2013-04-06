@@ -27,6 +27,10 @@
 			var email_in_use = '<?php echo lang('email_in_use'); ?>';
 			var email_check_error_title = '<?php echo lang('email_check_error_title'); ?>';
 			var email_check_error = '<?php echo lang('email_check_error'); ?>';
+			var user_not_exist_title = '<?php echo lang('user_not_exist_title'); ?>';
+			var user_not_exist = '<?php echo lang('user_not_exist'); ?>';
+			var incorrect_pass_title = '<?php echo lang('incorrect_pass_title'); ?>';
+			var incorrect_pass = '<?php echo lang('incorrect_pass'); ?>';
 		</script>
 	</head>
 	<body>

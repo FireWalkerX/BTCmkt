@@ -71,8 +71,8 @@ $ ->
 									email.popover({
 										'placement': 'right'
 										'trigger': 'focus'
-										'title': value == 1 ? email_in_use_title : email_check_error_title
-										'content': value == 1 ? email_in_use : email_check_error
+										'title': if value == 1 then email_in_use_title else email_check_error_title
+										'content': if value == 1 then email_in_use else email_check_error
 										'container': 'body'
 									})
 									test_pass = false
@@ -80,13 +80,51 @@ $ ->
 					'json'
 				)
 
-				document.location.reload(test_pass)
+				alert(test_pass)
+			#	document.location.reload(test_pass)
 	)
 
 	$('#login input[type="button"]').click(
 		->
-			alert('login')
-			#TODO
+			username	= $('#login input[name="user"]')
+			password	= $('#login input[name="pass"]')
+			test_pass	= true
+
+			$.post(
+				'login'
+				{
+					user: username.val()
+					pass: password.val()
+				}
+				(data) ->
+					$.each(
+						data
+						(key, value) ->
+							if (key == 'user' && ! value)
+								username.addClass('error')
+								username.popover({
+									'placement': 'right'
+									'trigger': 'focus'
+									'title': user_not_exist_title
+									'content': user_not_exist
+									'container': 'body'
+								})
+								test_pass = false;
+							else if (key == 'pass' && ! value)
+								password.addClass('error')
+								password.popover({
+									'placement': 'right'
+									'trigger': 'focus'
+									'title': incorrect_pass_title
+									'content': incorrect_pass
+									'container': 'body'
+								})
+								test_pass = false
+					)
+				'json'
+			)
+
+			document.location.reload(test_pass)
 	)
 
 	$('#register input[name="user"], #register input[name="email"], #register input[name="pass"],

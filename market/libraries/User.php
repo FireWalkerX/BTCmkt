@@ -33,7 +33,6 @@ class User {
 			$this->last_address_change = $user->lastAdrChange;
 			$this->reg_time = (int) $user->reg_time;
 			$this->last_active = (int) $user->last_active;
-			$this->language = $user->language;
 			$this->money = unserialize($user->money);
 			$this->settings = unserialize($user->settings);
 			$this->money['BTC'] = $CI->bitcoin->getbalance($this->id);
@@ -148,9 +147,11 @@ class User {
 		$valid_email = (bool) getmxrr($domain[1], $mxhost);
 
 		$CI->db->where('username', $username);
+		$CI->db->from('users');
 		$result['user'] = $CI->db->count_all_results() === 0;
 
 		$CI->db->where('email', $email);
+		$CI->db->from('users');
 		$result['email'] = $CI->db->count_all_results();
 
 		if ($valid_email && $result['user'] && $result['email'] === 0)
@@ -163,14 +164,19 @@ class User {
 				'reg_time'		=> $now,
 				'last_active'	=> $now,
 				'money'			=> 'a:0:{}',
-				'settings'		=> 'a:0:{}'
+				'settings'		=> serialize(array('language' => $CI->config->item('language')))
 				);
 			$query = $CI->db->insert('users', $data);
 
 			$CI->db->select('id');
 			$query = $CI->db->get('users');
-			foreach ($query->result() as $row);
-			$CI->bitcoin->getnewaddress($row->id);
+			foreach ($query->result() as $user);
+			$CI->bitcoin->getnewaddress($user->id);
+
+			$CI->session->set_userdata('user_id', (int) $user->id);
+			$CI->session->set_userdata('logged_in', TRUE);
+
+			//TODO confirmation email
 		}
 		else
 		{
