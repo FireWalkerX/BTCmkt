@@ -503,18 +503,18 @@ class Bitcoin {
 		}
 		else
 		{
-			throw new Exception('Unable to connect to '.$this->url);
+			log_message('error', 'Unable to connect to '.$this->url);
 		}
 
 		// final checks and return
 		if ($response['id'] != $id)
 		{
-				throw new Exception('Incorrect response id (request id: '.$id.', response id: '.$response['id'].')');
+			log_message('error', 'Incorrect response id (request id: '.$id.', response id: '.$response['id'].')');
 		}
 
 		if ( ! is_null($response['error']))
 		{
-			throw new Exception('Request error: '.$response['error']);
+			log_message('error', 'Request error: '.$response['error']);
 		}
 
 		return $response['result'];
