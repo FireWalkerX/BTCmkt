@@ -25,6 +25,12 @@
  * @filesource
  */
 
+if (PHP_INT_SIZE !== 8)
+{
+	die('64-bit PHP required');
+	exit;
+}
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

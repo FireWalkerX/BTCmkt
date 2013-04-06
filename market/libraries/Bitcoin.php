@@ -249,101 +249,226 @@ class Bitcoin {
 		return $this->connect('signmessage', array((string) $bitcoinaddress, (string) $message));
 	}
 
+	//TODO ^
+
 	/**
 	 * Sets the new fee for transactions.
 	 *
-	 * @param (double) amount -The new amount for the fee (rounded to 8 decimal places)
+	 * @param int $amount The new amount for the fee
+	 * @return bool|object If the modification was successful
+	 *						or the error object
 	 **/
 	public function settxfee($amount)
 	{
-		return $this->connect('settxfee', array((double) $amount));
+		if ( ! is_int($amount))
+		{
+			log_message('error', 'Bad data received for $amount at bitcoin->settxfee()');
+		}
+
+		$result = $this->connect('settxfee', array(amount_to_JSON($amount)));
+		if ($this->_has_error($result))
+		{
+			return $this->_get_error($result);
+		}
+		else
+		{
+			return (bool) $result;
+		}
 	}
 
 	/**
 	 * Return information about a given address.
 	 *
-	 * @param (string) $bitcoinaddress - The address to check
+	 * @param string $bitcoinaddress The address to check
+	 * @return object the data of the account, or the error object
 	 **/
 	public function validateaddress($bitcoinaddress)
 	{
-		return $this->connect('settxfee', array((string) $bitcoinaddress));
+		$result = $this->connect('settxfee', array((string) $bitcoinaddress));
+		if ($this->_has_error($result))
+		{
+			return $this->_get_error($result);
+		}
+		else
+		{
+			return json_decode($result);
+		}
 	}
 
 	/**
 	 * Sign a message with the private key of an address.
 	 *
-	 * @param (string) bitcoinaddress - The address used for signing
-	 * @param (string) signature - The signature resulted from signing
-	 * @param (string) message - The message
-	 * @return (bool) Wether the signature has been verified or not
+	 * @param string $bitcoinaddress The address used for signing
+	 * @param string $signature The signature resulted from signing
+	 * @param string $message The message
+	 * @return bool|object Wether the signature has been verified or not
+	 *						or the error of ocurred
 	 **/
 	public function verifymessage($bitcoinaddress, $signature, $message)
 	{
-		return (bool) $this->connect('verifymessage', array((string) $bitcoinaddress, (string) $signature, (string) $message));
+		$result = $this->connect('verifymessage', array((string) $bitcoinaddress, (string) $signature, (string) $message));
+		if ($this->_has_error($result))
+		{
+			return $this->_get_error($result);
+		}
+		else
+		{
+			return (bool) $result;
+		}
 	}
 
 	/**
 	 * Removes the wallet encryption key from memory, locking the wallet.
 	 * After calling this method, you will need to call walletpassphrase again
 	 * before being able to call any methods which require the wallet to be unlocked.
+	 *
+	 * @return null|object If there is an error, the error object
 	 **/
 	public function walletlock()
 	{
-		$this->connect('walletlock');
+		$result = $this->connect('walletlock');
+		if ($this->_has_error($result))
+		{
+			return $this->_get_error($result);
+		}
+		else
+		{
+			return NULL;
+		}
 	}
 
 	/**
 	 * Stores the wallet decryption key in memory for a given amount of seconds.
 	 *
-	 * @param (string) passphrase - The passphrase of the wallet
-	 * @param (int) timeout - The number of seconds to store the decryption key in memory
+	 * @param string $passphrase The passphrase of the wallet
+	 * @param int $timeout The number of seconds to store the decryption key in memory
 	 **/
-	public function walletpassphrase($passphrase, $timeout)
+	public function walletpassphrase($passphrase, $timeout = 30)
 	{
-		return $this->connect('walletpassphrase', array((string) $passphrase, (int) $timeout));
+		if ( ! is_int($timeout))
+		{
+			log_message('error', 'Bad data received for $timeout at bitcoin->walletpassphrase()');
+		}
+
+		$result = $this->connect('walletpassphrase', array((string) $passphrase, (int) $timeout));
+		if ($this->_has_error($result))
+		{
+			return $this->_get_error($result);
+		}
+		else
+		{
+			return NULL;
+		}
 	}
 
 	/**
 	 * Changes the wallet passphrase.
 	 *
-	 * @param (string) oldpassphrase - The old passphrase
-	 * @param (string) newpassphrase - The new passphrase to set
+	 * @param string $oldpassphrase The old passphrase
+	 * @param string $newpassphrase The new passphrase to set
+	 * @return null|object If there is an error, the error object
 	 **/
 	public function walletpassphrasechange($oldpassphrase, $newpassphrase)
 	{
-		return $this->connect('walletpassphrasechange', array((string) $oldpassphrase, (string) $newpassphrase));
+		$result = $this->connect('walletpassphrasechange', array((string) $oldpassphrase, (string) $newpassphrase));
+		if ($this->_has_error($result))
+		{
+			return $this->_get_error($result);
+		}
+		else
+		{
+			return NULL;
+		}
 	}
 
 	/**
 	 * Returns the integer value of the 64 bit double precision number in the JSON-RPC request.
 	 *
-	 * @param (double) value - The BTC value to be converted
-	 * @return (int) the integer for use with Bitcoin
+	 * @param double $value The BTC value to be converted
+	 * @return int the integer for use with Bitcoin
 	 * @link https://en.bitcoin.it/wiki/Proper_Money_Handling_(JSON-RPC)
 	 **/
 	public function JSON_to_amount($value)
 	{
-		return round($value * 1E+8);
+		if ( ! is_numeric($value))
+		{
+			log_message('error', 'Bad data received for $value at bitcoin->JSON_to_amount()');
+		}
+
+		return (int) round($value * 1E+8);
 	}
 
 	/**
 	 * Returns the 64 bit double precision number for the JSON-RPC request of the integer.
 	 *
-	 * @param (int) value - The BTC value to be converted
-	 * @return (double) the double to use with the JSON-RPC API
+	 * @param int $value The BTC value to be converted
+	 * @return double the double to use with the JSON-RPC API
 	 * @link https://en.bitcoin.it/wiki/Proper_Money_Handling_(JSON-RPC)
 	 **/
 	public function amount_to_JSON($value)
 	{
+		if ( ! is_int($value))
+		{
+			log_message('error', 'Bad data received for $value at bitcoin->amount_to_JSON()');
+		}
+
 		return (double) round($value * 1E-8, 8);
+	}
+
+	/**
+	 * Returns if the given error code is a standard JSON-RPC error
+	 *
+	 * @param int $error_code The error code
+	 * @return bool if the code is a JSON-RPC error
+	 **/
+	private function _is_rpc_error($error_code)
+	{
+		return ($error_code >= -32768 && $error_code <= -32000);
+	}
+
+	/**
+	 * Returns if the given response contains an error
+	 *
+	 * @param string $response the server's response
+	 * @return bool if the response contains an error
+	 **/
+	private function _has_error($response)
+	{
+		return ! empty($response) && strstr($response, 'error: ');
+	}
+
+	/**
+	 * Gets the error from the request. It's supposed that the response has
+	 * been checked, and an error has been found.
+	 *
+	 * @param string $error the server's response
+	 * @return object the error
+	 **/
+	private function _get_error($error)
+	{
+		if (strstr($error, 'error'))
+		{
+			$result = json_decode(substr($error, 7));
+			if ($this->_is_rpc_error($result->code))
+			{
+				log_message('error', 'RPC error: Code -> '.$result->code.' Message -> '.$result->message);
+			}
+
+			return $result;
+		}
+		else
+		{
+			log_message('error', 'There has been an error when decoding the bitcoin->walletpassphrasechange() return message');
+		}
 	}
 
 	/**
 	 * Creates the connection.
 	 * Uses code from JSON-RPC PHP client.
 	 *
-	 * @param (string) method - the method to use in the JSON-RPC connection
-	 * @param (array) params - the params to pass in the JSON-RPC connection
+	 * @param string $method the method to use in the JSON-RPC connection
+	 * @param array $params the params to pass in the JSON-RPC connection
+	 * @return mixed The result of the request
 	 * @link http://jsonrpcphp.org/
 	 **/
 	private function connect($method, $params = array())
