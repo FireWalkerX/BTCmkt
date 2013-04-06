@@ -171,7 +171,7 @@ class User {
 			$CI->db->select('id');
 			$query = $CI->db->get('users');
 			foreach ($query->result() as $user);
-			$CI->bitcoin->getnewaddress($user->id);
+			$CI->bitcoin->getaccountaddress($user->id);
 
 			$CI->session->set_userdata('user_id', (int) $user->id);
 			$CI->session->set_userdata('logged_in', TRUE);

@@ -237,19 +237,27 @@ class Bitcoin {
 		return $this->connect('sendtoaddress', array((string) $bitcoinaddress, (double) $amount, (string) $comment, (string) $comment_to));
 	}
 
+	//TODO ^
+
 	/**
 	 * Sign a message with the private key of an address.
 	 *
-	 * @param (string) bitcoinaddress - The address to use for signing
-	 * @param (string) message - The message to sign
-	 * @return (string) The signed message
+	 * @param string $bitcoinaddress The address to use for signing
+	 * @param string $message The message to sign
+	 * @return string The signed message
 	 **/
 	public function signmessage($bitcoinaddress, $message)
 	{
-		return $this->connect('signmessage', array((string) $bitcoinaddress, (string) $message));
+		$result = $this->connect('signmessage', array((string) $bitcoinaddress, (string) $message));
+		if ($this->_has_error($result))
+		{
+			return $this->_get_error($result);
+		}
+		else
+		{
+			return $result;
+		}
 	}
-
-	//TODO ^
 
 	/**
 	 * Sets the new fee for transactions.
@@ -453,6 +461,8 @@ class Bitcoin {
 			{
 				log_message('error', 'RPC error: Code -> '.$result->code.' Message -> '.$result->message);
 			}
+
+			//TODO wallet errors
 
 			return $result;
 		}
