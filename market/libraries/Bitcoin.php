@@ -186,7 +186,7 @@ class Bitcoin {
 	 * @param (string) comment - The comment for the move
 	 **/
 	public function move($fromaccount, $toaccount, $amount, $minconf = 6, $comment = '')
-	{
+	{//BOOL
 		return $this->connect('move', array((string) (int) $fromaccount, (string) (int) $toaccount,
 											(double) $amount, (int) $minconf, (string) $comment));
 	}
@@ -209,49 +209,96 @@ class Bitcoin {
 											(int) $minconf, (string) $comment, (string) $comment_to));
 	}
 
+	//TODO ^
+
 	/**
 	 * Sends multiple transactions at one time. It will use a send array to
 	 * send different amounts to each address.
 	 *
-	 * @param (int) fromaccount - The account from which to transfer funds
-	 * @param (array) send_array - The array with the amounts to send,
-	 *		in (string) key|address => (double) amount (rounded to 8 decimal places) format
-	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
-	 * @param (string) comment - The comment for the sending transaction
+	 * @param int $fromaccount - The account from which to transfer funds
+	 * @param array $send_array The array with the amounts to send,
+	 *		in string $address =>  int $amount format
+	 * @param int $minconf The minimum confirmations needed for a transaction to be considered as confirmed
+	 * @param string $comment The comment for the sending transaction
+	 * @return string|object The transaction ID, or the error object
 	 **/
 	public function sendmany($fromaccount, $send_array, $minconf = 6, $comment = '')
 	{
-		return $this->connect('sendmany', array((string) (int) $fromaccount, json_encode($send_array), (int) $minconf, (string) $comment));
+		if ( ! is_int($fromaccount))
+		{
+			log_message('error', 'Bad data received for $fromaccount at bitcoin->sendmany()');
+			return NULL;
+		}
+		else
+		{
+			foreach ($send_array as $address => $amount)
+			{
+				if ( ! is_int($amount) OR ! is_string($address))
+				{
+					log_message('error', 'Bad data received for $send_array at bitcoin->sendmany()');
+					return NULL;
+				}
+				else
+				{
+					$send_array[$address] = $this->amount_to_JSON($amount);
+				}
+			}
+
+			$result = $this->connect('sendmany', array((string) $fromaccount, $send_array, (int) $minconf, (string) $comment));
+			if ( ! is_null($error = $this->_get_error($result)))
+			{
+				return $error;
+			}
+			else
+			{
+				return $result;
+			}
+		}
 	}
 
 	/**
 	 * Sends money to a given address using the default account.
 	 *
-	 * @param (string) bitcoinaddress - The address to which to send funds
-	 * @param (double) amount (rounded to 8 decimal places)
-	 * @param (string) comment - The comment for the sending transaction
-	 * @param (string) comment-to - The comment for the arriving transaction
+	 * @param string $bitcoinaddress The address to which to send funds
+	 * @param int $amount The amount to send
+	 * @param string $comment The comment for the sending transaction
+	 * @param string $comment_to The comment for the arriving transaction
+	 * @return string|object The transaction ID, or the error object
 	 **/
 	public function sendtoaddress($bitcoinaddress, $amount, $comment = '', $comment_to = '')
 	{
-		return $this->connect('sendtoaddress', array((string) $bitcoinaddress, (double) $amount, (string) $comment, (string) $comment_to));
+		if ( ! is_int($amount))
+		{
+			log_message('error', 'Bad data received for $amount at bitcoin->sendtoaddress()');
+			return NULL;
+		}
+		else
+		{
+			$result = $this->connect('sendtoaddress', array((string) $bitcoinaddress, $this->amount_to_JSON($amount), (string) $comment, (string) $comment_to));
+			if ( ! is_null($error = $this->_get_error($result)))
+			{
+				return $error;
+			}
+			else
+			{
+				return $result;
+			}
+		}
 	}
-
-	//TODO ^
 
 	/**
 	 * Sign a message with the private key of an address.
 	 *
 	 * @param string $bitcoinaddress The address to use for signing
 	 * @param string $message The message to sign
-	 * @return string The signed message
+	 * @return string|object The signed message, or the error object
 	 **/
 	public function signmessage($bitcoinaddress, $message)
 	{
 		$result = $this->connect('signmessage', array((string) $bitcoinaddress, (string) $message));
-		if ($this->_has_error($result))
+		if ( ! is_null($error = $this->_get_error($result)))
 		{
-			return $this->_get_error($result);
+			return $error;
 		}
 		else
 		{
@@ -263,24 +310,27 @@ class Bitcoin {
 	 * Sets the new fee for transactions.
 	 *
 	 * @param int $amount The new amount for the fee
-	 * @return bool|object If the modification was successful
-	 *						or the error object
+	 * @return bool|object|null If the modification was successful or the
+	 *						error object, or NULL if $amount was not an int
 	 **/
 	public function settxfee($amount)
 	{
 		if ( ! is_int($amount))
 		{
 			log_message('error', 'Bad data received for $amount at bitcoin->settxfee()');
-		}
-
-		$result = $this->connect('settxfee', array(amount_to_JSON($amount)));
-		if ($this->_has_error($result))
-		{
-			return $this->_get_error($result);
+			return NULL;
 		}
 		else
 		{
-			return (bool) $result;
+			$result = $this->connect('settxfee', array($this->amount_to_JSON($amount)));
+			if ( ! is_null($error = $this->_get_error($result)))
+			{
+				return $error;
+			}
+			else
+			{
+				return (bool) $result;
+			}
 		}
 	}
 
@@ -292,10 +342,10 @@ class Bitcoin {
 	 **/
 	public function validateaddress($bitcoinaddress)
 	{
-		$result = $this->connect('settxfee', array((string) $bitcoinaddress));
-		if ($this->_has_error($result))
+		$result = $this->connect('validateaddress', array((string) $bitcoinaddress));
+		if ( ! is_null($error = $this->_get_error($result)))
 		{
-			return $this->_get_error($result);
+			return $error;
 		}
 		else
 		{
@@ -315,9 +365,9 @@ class Bitcoin {
 	public function verifymessage($bitcoinaddress, $signature, $message)
 	{
 		$result = $this->connect('verifymessage', array((string) $bitcoinaddress, (string) $signature, (string) $message));
-		if ($this->_has_error($result))
+		if ( ! is_null($error = $this->_get_error($result)))
 		{
-			return $this->_get_error($result);
+			return $error;
 		}
 		else
 		{
@@ -334,15 +384,7 @@ class Bitcoin {
 	 **/
 	public function walletlock()
 	{
-		$result = $this->connect('walletlock');
-		if ($this->_has_error($result))
-		{
-			return $this->_get_error($result);
-		}
-		else
-		{
-			return NULL;
-		}
+		return $this->_get_error($this->connect('walletlock'));
 	}
 
 	/**
@@ -350,22 +392,26 @@ class Bitcoin {
 	 *
 	 * @param string $passphrase The passphrase of the wallet
 	 * @param int $timeout The number of seconds to store the decryption key in memory
+	 * @return bool|object TRUE if everithing went OK, FALSE if $timeout wasn't an int and
+	 *						error object if there was an error
 	 **/
 	public function walletpassphrase($passphrase, $timeout = 30)
 	{
 		if ( ! is_int($timeout))
 		{
 			log_message('error', 'Bad data received for $timeout at bitcoin->walletpassphrase()');
-		}
-
-		$result = $this->connect('walletpassphrase', array((string) $passphrase, (int) $timeout));
-		if ($this->_has_error($result))
-		{
-			return $this->_get_error($result);
+			return FALSE;
 		}
 		else
 		{
-			return NULL;
+			if ( ! is_null($error = $this->_get_error($this->connect('walletpassphrase', array((string) $passphrase, $timeout)))))
+			{
+				return $error;
+			}
+			else
+			{
+				return TRUE;
+			}
 		}
 	}
 
@@ -378,22 +424,14 @@ class Bitcoin {
 	 **/
 	public function walletpassphrasechange($oldpassphrase, $newpassphrase)
 	{
-		$result = $this->connect('walletpassphrasechange', array((string) $oldpassphrase, (string) $newpassphrase));
-		if ($this->_has_error($result))
-		{
-			return $this->_get_error($result);
-		}
-		else
-		{
-			return NULL;
-		}
+		return $this->_get_error($this->connect('walletpassphrasechange', array((string) $oldpassphrase, (string) $newpassphrase)));
 	}
 
 	/**
 	 * Returns the integer value of the 64 bit double precision number in the JSON-RPC request.
 	 *
 	 * @param double $value The BTC value to be converted
-	 * @return int the integer for use with Bitcoin
+	 * @return int|null the integer for use with Bitcoin, NULL if there is an error
 	 * @link https://en.bitcoin.it/wiki/Proper_Money_Handling_(JSON-RPC)
 	 **/
 	public function JSON_to_amount($value)
@@ -401,16 +439,19 @@ class Bitcoin {
 		if ( ! is_numeric($value))
 		{
 			log_message('error', 'Bad data received for $value at bitcoin->JSON_to_amount()');
+			return NULL;
 		}
-
-		return (int) round($value * 1E+8);
+		else
+		{
+			return (int) round($value * 1E+8);
+		}
 	}
 
 	/**
 	 * Returns the 64 bit double precision number for the JSON-RPC request of the integer.
 	 *
 	 * @param int $value The BTC value to be converted
-	 * @return double the double to use with the JSON-RPC API
+	 * @return double|null the double to use with the JSON-RPC API, NULL if there is an error
 	 * @link https://en.bitcoin.it/wiki/Proper_Money_Handling_(JSON-RPC)
 	 **/
 	public function amount_to_JSON($value)
@@ -418,31 +459,31 @@ class Bitcoin {
 		if ( ! is_int($value))
 		{
 			log_message('error', 'Bad data received for $value at bitcoin->amount_to_JSON()');
+			return NULL;
 		}
-
-		return (double) round($value * 1E-8, 8);
+		else
+		{
+			return (double) round($value * 1E-8, 8);
+		}
 	}
 
 	/**
 	 * Returns if the given error code is a standard JSON-RPC error
 	 *
 	 * @param int $error_code The error code
-	 * @return bool if the code is a JSON-RPC error
+	 * @return bool|null if the code is a JSON-RPC error, NULL if there is an error
 	 **/
 	private function _is_rpc_error($error_code)
 	{
-		return ($error_code >= -32768 && $error_code <= -32000);
-	}
-
-	/**
-	 * Returns if the given response contains an error
-	 *
-	 * @param string $response the server's response
-	 * @return bool if the response contains an error
-	 **/
-	private function _has_error($response)
-	{
-		return ! empty($response) && strstr($response, 'error: ');
+		if ( ! is_int($error_code))
+		{
+			log_message('error', 'Bad data received for $value at bitcoin->_is_rpc_error()');
+			return NULL;
+		}
+		else
+		{
+			return ($error_code >= -32768 && $error_code <= -32000);
+		}
 	}
 
 	/**
@@ -450,11 +491,11 @@ class Bitcoin {
 	 * been checked, and an error has been found.
 	 *
 	 * @param string $error the server's response
-	 * @return object the error
+	 * @return object|null the error, NULL if there was no error
 	 **/
 	private function _get_error($error)
 	{
-		if (strstr($error, 'error'))
+		if ( ! empty($error) && strstr($error, 'error: '))
 		{
 			$result = json_decode(substr($error, 7));
 			if ($this->_is_rpc_error($result->code))
@@ -468,7 +509,7 @@ class Bitcoin {
 		}
 		else
 		{
-			log_message('error', 'There has been an error when decoding the bitcoin->walletpassphrasechange() return message');
+			return NULL;
 		}
 	}
 
@@ -492,6 +533,8 @@ class Bitcoin {
 						'id' => $id
 						);
 		$request	= json_encode($request);
+
+		echo json_encode($params);
 
 		// performs the HTTP POST
 		$opts		= array((config_item('server_is_ssl') ? 'https' : 'http') => array(

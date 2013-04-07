@@ -22,7 +22,7 @@ $config['server_name']	= 'localhost';
 | The port where the Bitcoin daemon is listening. Usually 8332.
 |
 */
-$config['server_port']	= 8332;
+$config['server_port']	= 18332;
 
 /*
 |--------------------------------------------------------------------------
