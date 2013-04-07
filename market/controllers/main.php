@@ -22,7 +22,7 @@ class Main extends CI_Controller {
 
 			echo 'Sending multiple transactions';
 
-			var_dump($this->bitcoin->sendmany('n',
+			var_dump($this->bitcoin->sendmany(1,
 											array('mkok7s7kr6fTCoWSVSnQapmHGc9KaLMtoG' => 10000,
 												'mtqjDXFerC4Csprr9Qfmqt6YFmwZFTqvTJ' => 20000),
 											1,

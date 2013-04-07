@@ -167,66 +167,102 @@ class Bitcoin {
 	/**
 	 * Returns array of unspent transaction inputs in the wallet.
 	 *
-	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
-	 * @param (int) maxconf - The maximum confirmations for a transaction to be showed
+	 * @param int $minconf The minimum confirmations needed for a transaction to be considered as confirmed
+	 * @param int $maxconf The maximum confirmations for a transaction to be showed
 	 **/
-	public function listunspent($minconf = 6, $maxconf = 999999)
+	public function listunspent($minconf = 3, $maxconf = 999999)
 	{
 		return $this->connect('listunspent', array((int) $minconf, (int) $maxconf));
 	}
+
+	//TODO ^
 
 	/**
 	 * Move from one account in your wallet to another. It won't use Bitcoin network, and thus,
 	 * whon't cost any fee.
 	 *
-	 * @param (int) fromaccount - The account from which to transfer funds
-	 * @param (int) toaccount - The account to which send funds
-	 * @param (double) amount - The amount to send (rounded to 8 decimal places)
-	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
-	 * @param (string) comment - The comment for the move
+	 * @param int $fromaccount The account from which to transfer funds
+	 * @param int $toaccount The account to which send funds
+	 * @param int $amount The amount to send
+	 * @param int $minconf The minimum confirmations needed for a transaction to be considered as confirmed
+	 * @param string $comment The comment for the move
+	 * @return bool|object|null if the move was successful, or the error object or NULL
+	 *								if $fromaccount or $toaccount or $amount or $minconf were not int
 	 **/
-	public function move($fromaccount, $toaccount, $amount, $minconf = 6, $comment = '')
-	{//BOOL
-		return $this->connect('move', array((string) (int) $fromaccount, (string) (int) $toaccount,
-											(double) $amount, (int) $minconf, (string) $comment));
+	public function move($fromaccount, $toaccount, $amount, $minconf = 3, $comment = '')
+	{
+		if ( ! is_int($fromaccount) OR ! is_int($toaccount) OR ! is_int($amount) OR ! is_int($minconf))
+		{
+			log_message('error', 'Bad data received for $fromaccount or $toaccount or $amount or $minconf at bitcoin->move()');
+			return NULL;
+		}
+		else
+		{
+			$result = $this->connect('move', array((string) $fromaccount, (string) $toaccount,
+													$this->amount_to_JSON($amount), $minconf, (string) $comment));
+			if ( ! is_null($error = $this->_get_error($result)))
+			{
+				return $error;
+			}
+			else
+			{
+				return (bool) $result;
+			}
+		}
 	}
 
 	/**
 	 * Will send the given amount to the given address, ensuring the account has a valid balance
 	 * using given confirmations.
 	 *
-	 * @param (int) fromaccount - The account from which to transfer funds
-	 * @param (string) tobitcoinaddress - The Bitcoin address for receiving the funds
-	 * @param (double) amount - The amount to send (rounded to 8 decimal places)
-	 * @param (int) minconf - The minimum confirmations needed for a transaction to be considered as confirmed
-	 * @param (string) comment - The comment for the sending transaction
-	 * @param (string) comment-to - The comment for the arriving transaction
-	 * @return (string) the transaction ID, if successful (not a JSON object)
+	 * @param int $fromaccount The account from which to transfer funds
+	 * @param string $tobitcoinaddress The Bitcoin address for receiving the funds
+	 * @param double $amount The amount to send
+	 * @param int $minconf The minimum confirmations needed for a transaction to be considered as confirmed
+	 * @param string $comment The comment for the sending transaction
+	 * @param string $comment_to The comment for the arriving transaction
+	 * @return string|object|null The transaction ID, or the error object or NULL
+	 *								if $fromaccount or $amount or $minconf were not int
 	 **/
 	public function sendfrom($fromaccount, $tobitcoinaddress, $amount, $minconf = 6, $comment = '', $comment_to = '')
 	{
-		return $this->connect('sendfrom', array((string) (int) $fromaccount, (string) $tobitcoinaddress, (double) $amount,
-											(int) $minconf, (string) $comment, (string) $comment_to));
+		if ( ! is_int($fromaccount) OR ! is_int($amount) OR ! is_int($minconf))
+		{
+			log_message('error', 'Bad data received for $fromaccount or $amount or $minconf at bitcoin->sendfrom()');
+			return NULL;
+		}
+		else
+		{
+			$result = $this->connect('sendfrom', array((string) $fromaccount, (string) $tobitcoinaddress, $this->amount_to_JSON($amount),
+														$minconf, (string) $comment, (string) $comment_to));
+			if ( ! is_null($error = $this->_get_error($result)))
+			{
+				return $error;
+			}
+			else
+			{
+				return $result;
+			}
+		}
 	}
-
-	//TODO ^
 
 	/**
 	 * Sends multiple transactions at one time. It will use a send array to
 	 * send different amounts to each address.
 	 *
-	 * @param int $fromaccount - The account from which to transfer funds
+	 * @param int $fromaccount The account from which to transfer funds
 	 * @param array $send_array The array with the amounts to send,
 	 *		in string $address =>  int $amount format
 	 * @param int $minconf The minimum confirmations needed for a transaction to be considered as confirmed
 	 * @param string $comment The comment for the sending transaction
-	 * @return string|object The transaction ID, or the error object
+	 * @return string|object|null The transaction ID, or the error object or NULL
+	 *								if $fromaccount or any $amount were not int
 	 **/
 	public function sendmany($fromaccount, $send_array, $minconf = 6, $comment = '')
 	{
-		if ( ! is_int($fromaccount))
+		if ( ! is_int($fromaccount) OR ! is_int($minconf))
 		{
-			log_message('error', 'Bad data received for $fromaccount at bitcoin->sendmany()');
+			log_message('error', 'Bad data received for $fromaccount or $minconf at bitcoin->sendmany()');
 			return NULL;
 		}
 		else
@@ -263,7 +299,8 @@ class Bitcoin {
 	 * @param int $amount The amount to send
 	 * @param string $comment The comment for the sending transaction
 	 * @param string $comment_to The comment for the arriving transaction
-	 * @return string|object The transaction ID, or the error object
+	 * @return string|object|null The transaction ID, or the error object
+	 *								or NULL if $amount was not an int
 	 **/
 	public function sendtoaddress($bitcoinaddress, $amount, $comment = '', $comment_to = '')
 	{
@@ -395,7 +432,7 @@ class Bitcoin {
 	 * @return bool|object TRUE if everithing went OK, FALSE if $timeout wasn't an int and
 	 *						error object if there was an error
 	 **/
-	public function walletpassphrase($passphrase, $timeout = 30)
+	public function walletpassphrase($passphrase, $timeout = 5)
 	{
 		if ( ! is_int($timeout))
 		{
@@ -533,8 +570,6 @@ class Bitcoin {
 						'id' => $id
 						);
 		$request	= json_encode($request);
-
-		echo json_encode($params);
 
 		// performs the HTTP POST
 		$opts		= array((config_item('server_is_ssl') ? 'https' : 'http') => array(
