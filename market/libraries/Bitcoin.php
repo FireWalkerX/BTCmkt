@@ -164,18 +164,36 @@ class Bitcoin {
 		return $this->connect('listtransactions', array((string) (int) $account, (int) $count, (int) $from));
 	}
 
+	//TODO ^
+
 	/**
 	 * Returns array of unspent transaction inputs in the wallet.
 	 *
 	 * @param int $minconf The minimum confirmations needed for a transaction to be considered as confirmed
 	 * @param int $maxconf The maximum confirmations for a transaction to be showed
+	 * @return array|object|null The unexpent transactions, or the error object, or NULL if
+	 *								$minconf or $maxconf were not int
 	 **/
 	public function listunspent($minconf = 3, $maxconf = 999999)
 	{
-		return $this->connect('listunspent', array((int) $minconf, (int) $maxconf));
+		if ( ! is_int($minconf) OR ! is_int($maxconf))
+		{
+			log_message('error', 'Bad data received for $minconf or $maxconf at bitcoin->move()');
+			return NULL;
+		}
+		else
+		{
+			$result = $this->connect('listunspent', array($minconf, $maxconf));
+			if ( ! is_null($error = $this->_get_error($result)))
+			{
+				return $error;
+			}
+			else
+			{
+				return json_decode($result);
+			}
+		}
 	}
-
-	//TODO ^
 
 	/**
 	 * Move from one account in your wallet to another. It won't use Bitcoin network, and thus,

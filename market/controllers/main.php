@@ -19,14 +19,7 @@ class Main extends CI_Controller {
 			var_dump($this->bitcoin->listtransactions(1));
 
 			echo '<br><br>';
-
-			echo 'Sending multiple transactions';
-
-			var_dump($this->bitcoin->sendmany(1,
-											array('mkok7s7kr6fTCoWSVSnQapmHGc9KaLMtoG' => 10000,
-												'mtqjDXFerC4Csprr9Qfmqt6YFmwZFTqvTJ' => 20000),
-											1,
-											'TEST'));
+			//move(), sendfrom(), signmessage, settxfee(), validateaddress(), listunspent()
 		}
 		else
 		{
