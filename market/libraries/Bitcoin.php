@@ -155,13 +155,30 @@ class Bitcoin {
 	/**
 	 * Returns the most recent transactions skipping the first given transactions for the given account.
 	 *
-	 * @param (int) account - The account to check
-	 * @param (int) count - The number of transactions to return
-	 * @param (int) from - The number of transactions to skip
+	 * @param int $account The account to check
+	 * @param int $count The number of transactions to return
+	 * @param int $from The number of transactions to skip
+	 * @return TODO
 	 **/
 	public function listtransactions($account, $count = 10, $from = 0)
 	{
-		return $this->connect('listtransactions', array((string) (int) $account, (int) $count, (int) $from));
+		if ( ! is_int($account) OR ! is_int($count) OR ! is_int($from))
+		{
+			log_message('error', 'Bad data received for $account or $count or $from at bitcoin->listtransactions()');
+			return NULL;
+		}
+		else
+		{
+			$result =  $this->connect('listtransactions', array((string) $account, $count, $from));
+			if ( ! is_null($error = $this->_get_error($result)))
+			{
+				return $error;
+			}
+			else
+			{
+				return $result; //TODO
+			}
+		}
 	}
 
 	//TODO ^
@@ -178,7 +195,7 @@ class Bitcoin {
 	{
 		if ( ! is_int($minconf) OR ! is_int($maxconf))
 		{
-			log_message('error', 'Bad data received for $minconf or $maxconf at bitcoin->move()');
+			log_message('error', 'Bad data received for $minconf or $maxconf at bitcoin->listunspent()');
 			return NULL;
 		}
 		else
@@ -190,7 +207,7 @@ class Bitcoin {
 			}
 			else
 			{
-				return json_decode($result);
+				return json_decode($result); //TODO test
 			}
 		}
 	}
